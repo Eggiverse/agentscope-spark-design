@@ -1,0 +1,183 @@
+{
+  "name": "@ali/agentscope-ai-design",
+  "version": "4.7.13",
+  "description": "阿里云飞天实验室ui库",
+  "repository": "http://gitlab.alibaba-inc.com/liveme-console/spark-design.git",
+  "license": "MIT",
+  "sideEffects": [
+    "*.less",
+    "*.css",
+    "*.scss"
+  ],
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bin": "scripts/index.js",
+  "files": [
+    "lib",
+    "scripts/index.js",
+    "scripts/init-migrate-config.js",
+    "scripts/replace_components_import.js",
+    "scripts/replace_css_variables.js",
+    "scripts/mcp-docs-server.js",
+    "llms"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:mcp": "esbuild mcp/index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=scripts/mcp-docs-server.js --banner:js='#!/usr/bin/env node' --external:fs --external:path --external:process",
+    "build:watch": "father dev",
+    "changelog": "conventional-changelog -t publish/  -p angular -i CHANGELOG.md -s && replace '^\\# \\[' '## [' ./CHANGELOG.md",
+    "copy-antd-docs": "node copy-antd-docs.js",
+    "dev": "dumi dev",
+    "docs:build": "dumi build && node scripts/build-index-llms-txt.js",
+    "docs:preview": "dumi preview",
+    "docsMD:build": "node docMD.js",
+    "doctor": "father doctor",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint --fix \"{src,test}/**/*.{css,less}\"",
+    "lint:es": "eslint --fix \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "dumi:setup": "dumi setup",
+    "postinstall": "npm run dumi:setup",
+    "prettier": "prettier --write src/",
+    "start": "npm run dev",
+    "test": "vitest"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{md,json}": [
+      "prettier --write --no-error-on-unmatched-pattern"
+    ],
+    "*.{css,less}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@agentscope-ai/icons": "^1.0.35",
+    "@agentscope-ai/icons-override-antd": "6.0.0",
+    "@agentscope-ai/icons-svg-override-antd": "4.4.2",
+    "@codemirror/autocomplete": "^6.18.7",
+    "@codemirror/lang-cpp": "^6.0.2",
+    "@codemirror/lang-css": "^6.3.1",
+    "@codemirror/lang-go": "^6.0.1",
+    "@codemirror/lang-html": "^6.4.9",
+    "@codemirror/lang-java": "^6.0.1",
+    "@codemirror/lang-javascript": "^6.2.3",
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lang-markdown": "^6.3.4",
+    "@codemirror/lang-php": "^6.0.1",
+    "@codemirror/lang-python": "^6.1.7",
+    "@codemirror/lang-yaml": "^6.1.2",
+    "@codemirror/lint": "^6.8.4",
+    "@emotion/react": "^11.14.0",
+    "@halofe/global-locale": "^1.0.3",
+    "@halofe/global-string-format": "^1.0.8",
+    "@uiw/codemirror-extensions-mentions": "^4.25.1",
+    "@uiw/codemirror-theme-vscode": "^4.23.7",
+    "@uiw/react-codemirror": "4.20.2",
+    "ahooks": "^3.7.8",
+    "antd-style": "^3.7.1",
+    "dayjs": "^1.11.7",
+    "dompurify": "^2.3.8",
+    "js-cookie": "^3.0.5",
+    "lodash-es": "^4.17.21",
+    "query-string": "^7.1.3",
+    "slate": "0.91.4",
+    "slate-history": "0.86.0",
+    "slate-react": "0.92.0",
+    "stylis": "^4.3.6",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "@alibot/dumi-plugin-api-parser": "^1.0.3",
+    "@alibot/dumi-plugin-llms": "1.0.4",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@modelcontextprotocol/sdk": "1.17.3",
+    "@rc-component/util": "1.2.1",
+    "@react-spring/web": "^9.7.5",
+    "@tailwindcss/postcss": "^4.0.6",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@types/less": "^3.0.6",
+    "@types/lodash-es": "4.17.12",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@umijs/lint": "^4.0.0",
+    "@umijs/plugins": "^4.4.4",
+    "@vitejs/plugin-react": "^4.3.3",
+    "@vitejs/plugin-react-swc": "^3.7.1",
+    "@vitest/coverage-istanbul": "2.1.4",
+    "@vitest/ui": "2.1.4",
+    "ahooks": "^3.8.1",
+    "antd": "^5.23.0",
+    "classnames": "^2.5.1",
+    "conventional-changelog-cli": "^5.0.0",
+    "debug": "^4.3.7",
+    "dumi": "^2.3.0",
+    "dumi-plugin-code-snippets": "^1.2.0",
+    "enhanced-resolve": "^5.17.1",
+    "esbuild": "0.21.4",
+    "eslint": "^8.23.0",
+    "father": "^4.1.0",
+    "framer-motion": "^12.4.2",
+    "husky": "^8.0.1",
+    "jsdom": "^25.0.1",
+    "lint-staged": "^13.0.3",
+    "locomotive-scroll": "^4.1.4",
+    "motion": "^12.4.1",
+    "ogl": "^1.0.11",
+    "postcss": "^8.5.2",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "prop-types": "^15.8.1",
+    "query-string": "^7.1.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "replace": "^1.2.2",
+    "semver": "^7.6.3",
+    "stylelint": "^14.9.1",
+    "tailwindcss": "^4.0.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4",
+    "yargs-parser": "^21.1.1",
+    "zod": "^3.24.2"
+  },
+  "peerDependencies": {
+    "@rc-component/util": "1.2.1",
+    "antd": "^5.18.0",
+    "classnames": "^2.5.1",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "engines": {
+    "pnpm": "9"
+  },
+  "publishConfig": {
+    "registry": "https://registry.anpm.alibaba-inc.com"
+  },
+  "pnpm": {
+    "overrides": {
+      "@ant-design/icons": "@agentscope-ai/icons-override-antd",
+      "@ant-design/icons-svg": "@agentscope-ai/icons-svg-override-antd"
+    }
+  },
+  "authors": [],
+  "overrides": {
+    "@ant-design/icons": "@agentscope-ai/icons-override-antd",
+    "@ant-design/icons-svg": "@agentscope-ai/icons-svg-override-antd"
+  }
+}
