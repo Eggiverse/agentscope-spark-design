@@ -18,13 +18,7 @@ export default defineConfig({
     ],
   },
   base: process.env.GITHUB_PAGES ? '/sd-doc/' : '/',
-  publicPath: env
-    ? `https://${
-        PROD ? '' : 'dev.'
-      }g.alicdn.com/code/npm/@ali/agentscope-ai-design/${
-        version || pkg.version
-      }/docs-dist/`
-    : process.env.GITHUB_PAGES ? '/sd-doc/' : '/',
+  publicPath: process.env.GITHUB_PAGES ? '/sd-doc/' : '/',
   outputPath: 'dist',
   hash: true,
   themeConfig: {
@@ -40,9 +34,6 @@ export default defineConfig({
     name: 'Basic Components',
     type: 'docs',
     prefersColor: { default: 'light', switch: false },
-    socialLinks: {
-      github: 'https://code.alibaba-inc.com/liveme-console/bailian-ui',
-    },
     nav: [
       {
         title: {
@@ -95,7 +86,6 @@ export default defineConfig({
   postcssLoader: {
     plugins: {
       '@tailwindcss/postcss': {},
-      // './remove-layer.js': {},
     },
   },
   plugins: [

@@ -23,14 +23,6 @@ tnpm install -S @agentscope-ai/design --save # 外网包
 def：https://space.o2.alibaba-inc.com/app/483981/iteration <br/>
 门户站点：https://pre-bailian.console.aliyun.com/spark-design
 
-### 对内版
-
-https://anpm.alibaba-inc.com/package/@ali/agentscope-ai-design?tab=versions&all-versions=1 <br/>
-以下是版本介绍：<br/>
-0.0.1-beta.[时间戳] 是为了固定一个版本用来更新站点文档，不建议使用；<br/>
-0.0.3-beta.[时间戳] 是对外版本的预发版本，裁剪了历史包袱，新业务都推荐使用这个版本。<br/>
-正式包（从 4.1.0 开始迭代） ，是对内的完整版本。<br/>
-
 ### 对外版
 
 https://www.npmjs.com/package/@agentscope-ai/design?activeTab=versions <br/>
