@@ -8,10 +8,6 @@ const onChange: InputNumberProps['onChange'] = (value) => {
   console.log('changed', value);
 };
 
-const onChange1: InputNumberProps['onChange'] = (value) => {
-  console.log('changed', value);
-};
-
 const App: React.FC = () => {
   return (
     <Flex vertical gap="middle" align="center" justify="center">

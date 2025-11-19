@@ -27,7 +27,7 @@ export interface SparkRadioButtonProps extends RadioGroupProps {
 export default (props: SparkRadioButtonProps) => {
   const commonConfig = getCommonConfig();
   const { sparkPrefix, antPrefix } = commonConfig;
-  const { gap = 12, bordered = false, ghost = true } = props;
+  const { ghost = true } = props;
   const Style = useStyle();
 
   return (

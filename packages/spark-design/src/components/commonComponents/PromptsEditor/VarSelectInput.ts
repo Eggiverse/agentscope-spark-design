@@ -18,11 +18,11 @@ export default function (
       (context: CompletionContext) => {
         let word = context.matchBefore(/\/(\w+)?/);
         if (!word) return null;
-        if (word && word.from == word.to && !context.explicit) {
+        if (word && word.from === word.to && !context.explicit) {
           return null;
         }
         return {
-          from: word?.from!,
+          from: word?.from ?? 0,
           options: (onCreate
             ? [...data, { label: '/NEW_VAR', boost: -99 }]
             : data

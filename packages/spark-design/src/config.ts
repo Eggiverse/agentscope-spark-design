@@ -22,6 +22,8 @@ export interface CommonConfig {
   /** iconfont 地址 */
   iconfont?: string;
   isDarkMode?: boolean;
+  /** 主题配置，供 staticRenderer 等静态方法使用 */
+  theme?: ConfigProviderProps['theme'];
 }
 
 const commonConfig: CommonConfig = {

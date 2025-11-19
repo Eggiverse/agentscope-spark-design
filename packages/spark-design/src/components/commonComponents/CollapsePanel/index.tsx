@@ -67,7 +67,7 @@ const CollapsePanel = (props: CollapsePanelProps) => {
   const [contentHeight, setContentHeight] = useState(collapsedHeight);
   const contentRef = useRef(null);
   const commonConfig = getCommonConfig();
-  const { sparkPrefix, antPrefix } = commonConfig;
+  const { sparkPrefix } = commonConfig;
   const Style = useStyle();
 
   useEffect(() => {

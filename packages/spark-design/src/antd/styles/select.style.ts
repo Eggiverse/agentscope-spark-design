@@ -40,6 +40,11 @@ export const useSelectStyle = createGlobalStyle`
   p.antPrefix}-select-selection-item {
   color: var(--${(p) => p.antPrefix}-color-mauve);
 }
+
+.${(p) => p.antPrefix}-select .${(p) =>
+  p.antPrefix}-select-selection-placeholder {
+  color: var(--${(p) => p.antPrefix}-color-text-tertiary);
+}
 `;
 
 export default useSelectStyle;

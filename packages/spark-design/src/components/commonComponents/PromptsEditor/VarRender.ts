@@ -33,7 +33,12 @@ class PlaceholderWidget extends WidgetType {
 
 // Placeholder 匹配器
 const placeholderMatcher = new MatchDecorator({
-  regexp: /\$\{(\w+)\}/g,
+  // 该正则用于匹配形如 ${变量名} 的占位符，变量名允许为中文、字母、数字、下划线
+  // \${         匹配字符 "${"
+  // ([\w\u4e00-\u9fa5]+)  匹配一个或多个字母、数字、下划线或中文字符，捕获为分组1
+  // \}          匹配字符 "}"
+  // g           全局匹配
+  regexp: /\$\{([\w\u4e00-\u9fa5]+)\}/g,
   decoration: (match) =>
     Decoration.replace({
       widget: new PlaceholderWidget(match[1]),

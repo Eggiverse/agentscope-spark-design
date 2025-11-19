@@ -2,6 +2,7 @@ import { getCommonConfig } from '@/config';
 import { SparkSortLine } from '@agentscope-ai/icons';
 import { Table as AntdTable, TableProps } from 'antd';
 import classNames from 'classnames';
+import { useStyle as usePaginationStyle } from '../Pagination/index.style';
 import { useStyle } from './index.style';
 
 export default function Table<T = any>(props: TableProps<T>) {
@@ -15,10 +16,12 @@ export default function Table<T = any>(props: TableProps<T>) {
       (() => <SparkSortLine style={{ fontSize: 16, marginLeft: 8 }} />),
   }));
   const Style = useStyle();
+  const PaginationStyle = usePaginationStyle();
 
   return (
     <>
       <Style />
+      <PaginationStyle />
       <AntdTable<T>
         className={classNames(`${sparkPrefix}-table`)}
         columns={columns}

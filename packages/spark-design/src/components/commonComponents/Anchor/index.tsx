@@ -4,7 +4,7 @@ import { useStyle } from './index.style';
 
 export type { AnchorProps };
 
-const SparkAnchor = forwardRef<any, AnchorProps>((props, ref) => {
+const SparkAnchor = forwardRef<any, AnchorProps>((props) => {
   const Style = useStyle();
 
   return (

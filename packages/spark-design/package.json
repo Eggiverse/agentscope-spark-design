@@ -1,7 +1,7 @@
 {
   "name": "@agentscope-ai/design",
   "version": "1.0.12",
-  "description": "阿里云飞天实验室ui库",
+  "description": "AgentScope Spark Design - UI Library for AgentScope AI",
   "repository": "http://gitlab.alibaba-inc.com/liveme-console/spark-design.git",
   "license": "MIT",
   "sideEffects": [
@@ -21,43 +21,17 @@
     "build:mcp": "esbuild mcp/index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=scripts/mcp-docs-server.js --banner:js='#!/usr/bin/env node' --external:fs --external:path --external:process",
     "build:watch": "father dev",
     "changelog": "conventional-changelog -t publish/  -p angular -i CHANGELOG.md -s && replace '^\\# \\[' '## [' ./CHANGELOG.md",
-    "ci:install-deps": "tnpm i pnpm@9 -D && pnpm --version && pnpm install",
     "copy-antd-docs": "node copy-antd-docs.js",
     "dev": "dumi dev",
+    "dev:mobile": "ONLY_MOBILE=1 dumi dev",
     "docs:build": "dumi build && node scripts/build-index-llms-txt.js",
     "docs:build:gh": "GITHUB_PAGES=true dumi build",
     "docs:preview": "dumi preview",
     "doctor": "father doctor",
-    "lint": "npm run lint:es && npm run lint:css",
-    "lint:css": "stylelint --fix \"{src,test}/**/*.{css,less}\"",
-    "lint:es": "eslint --fix \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "dumi:setup": "dumi setup",
     "postinstall": "npm run dumi:setup",
-    "prettier": "prettier --write src/",
     "start": "npm run dev",
     "test": "vitest"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "lint-staged": {
-    "*.{md,json}": [
-      "prettier --write --no-error-on-unmatched-pattern"
-    ],
-    "*.{css,less}": [
-      "stylelint --fix",
-      "prettier --write"
-    ],
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --parser=typescript --write"
-    ]
   },
   "dependencies": {
     "@agentscope-ai/icons": "^1.0.35",
@@ -97,9 +71,7 @@
   "devDependencies": {
     "@alibot/dumi-plugin-llms": "1.0.4",
     "@alibot/dumi-plugin-api-parser": "1.0.3",
-    "@ali/dumi-theme-spark": "^0.0.97",
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
+    "@agentscope-ai/dumi-theme-spark": "0.0.98",
     "@modelcontextprotocol/sdk": "1.17.3",
     "@rc-component/util": "1.2.1",
     "@react-spring/web": "^9.7.5",
@@ -125,26 +97,20 @@
     "dumi-plugin-code-snippets": "^1.2.0",
     "enhanced-resolve": "^5.17.1",
     "esbuild": "0.21.4",
-    "eslint": "^8.23.0",
     "father": "^4.1.0",
     "framer-motion": "^12.4.2",
     "husky": "^8.0.1",
     "jsdom": "^25.0.1",
-    "lint-staged": "^13.0.3",
     "locomotive-scroll": "^4.1.4",
     "motion": "^12.4.1",
     "ogl": "^1.0.11",
     "postcss": "^8.5.2",
-    "prettier": "^2.7.1",
-    "prettier-plugin-organize-imports": "^3.0.0",
-    "prettier-plugin-packagejson": "^2.2.18",
     "prop-types": "^15.8.1",
     "query-string": "^7.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "replace": "^1.2.2",
     "semver": "^7.6.3",
-    "stylelint": "^14.9.1",
     "tailwindcss": "^4.0.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
@@ -163,7 +129,8 @@
     "pnpm": "9"
   },
   "publishConfig": {
-    "registry": "https://registry.anpm.alibaba-inc.com"
+    "registry": "https://registry.npm.org",
+    "access": "public"
   },
   "pnpm": {
     "overrides": {

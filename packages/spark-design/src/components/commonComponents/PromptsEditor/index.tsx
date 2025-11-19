@@ -244,7 +244,7 @@ const Editor = (props: PromptsEditorProps) => {
       props.tipsText
     ) : (
       <div className={styles.tips}>
-        输入"/"引用变量，支持 <SparkEnterLine size={16} /> 回车新增
+        输入/&quot;/&quot;引用变量，支持 <SparkEnterLine size={16} /> 回车新增
       </div>
     );
   }, [props.tipsText]);

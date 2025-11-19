@@ -13,8 +13,6 @@ import {
 import { ReactEditor } from 'slate-react';
 import { CustomElement, InsertNodesOptions, WrapNodesOptions } from '../types';
 
-type IDate = Array<Array<RegExpMatchArray | undefined | null>>;
-
 /**
  * 插入节点
  * @param editor

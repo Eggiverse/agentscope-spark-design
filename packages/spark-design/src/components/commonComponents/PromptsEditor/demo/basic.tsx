@@ -28,7 +28,12 @@ export default function Basic() {
       value={value}
       onChange={setValue}
       maxLength={5000}
-      variables={[{ code: 'city' }, { code: 'foo' }, { code: 'user' }]}
+      variables={[
+        { code: 'city' },
+        { code: 'foo' },
+        { code: 'user' },
+        { code: '模型输入' },
+      ]}
     />
   );
 }

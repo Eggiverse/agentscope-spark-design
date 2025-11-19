@@ -9,7 +9,9 @@ import ReactDOM from 'react-dom/client';
 
 export default {
   show: (modal: React.ReactElement, id?: string) => {
-    const { prefix, antPrefix, configProviderProps } = getCommonConfig();
+    const { prefix, antPrefix, configProviderProps, theme } = getCommonConfig();
+    // 从 configProviderProps 中移除 theme，使用 commonConfig 中保存的 mergedTheme
+    const { theme: _, ...restConfigProviderProps } = configProviderProps || {};
     const prevModal = document.querySelector(
       `div[role=${prefix}-static${id ? `-${id}` : ''}]`,
     );
@@ -28,7 +30,8 @@ export default {
         // locale={$i18n.language === 'zh-CN' ? zhCN : enUS}
         prefix={prefix}
         prefixCls={antPrefix}
-        {...configProviderProps}
+        theme={theme}
+        {...restConfigProviderProps}
       >
         {modal}
       </ConfigProvider>,

@@ -4,6 +4,16 @@ import classNames from 'classnames';
 import { forwardRef } from 'react';
 import { useStyle } from './index.style';
 
+enum SparkTagColors {
+  Purple = 'purple',
+  Pink = 'pink',
+  Yellow = 'yellow',
+  Teal = 'teal',
+  Blue = 'blue',
+  Mauve = 'mauve',
+  Transparent = 'transparent',
+}
+
 export interface SparkTagProps extends TagProps {
   /**
    * @description 尺寸
@@ -16,14 +26,7 @@ export interface SparkTagProps extends TagProps {
    * @descriptionEn color of the tag
    * @default 'purple'
    */
-  color?:
-    | 'purple'
-    | 'pink'
-    | 'yellow'
-    | 'teal'
-    | 'blue'
-    | 'mauve'
-    | 'transparent';
+  color?: SparkTagColors | string;
 }
 
 const SparkTag = forwardRef<any, SparkTagProps>((props, ref) => {
@@ -38,6 +41,9 @@ const SparkTag = forwardRef<any, SparkTagProps>((props, ref) => {
   const Style = useStyle();
   const commonConfig = getCommonConfig();
   const { sparkPrefix } = commonConfig;
+  const isSparkTagColor = Object.values(SparkTagColors).includes(
+    color as SparkTagColors,
+  );
 
   return (
     <>
@@ -48,6 +54,7 @@ const SparkTag = forwardRef<any, SparkTagProps>((props, ref) => {
           className,
         )}
         bordered={bordered}
+        color={isSparkTagColor ? undefined : color}
         {...restProps}
         ref={ref}
       >

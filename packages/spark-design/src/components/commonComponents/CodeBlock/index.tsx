@@ -81,7 +81,7 @@ const CodeMirrorWrapper = (props: CodeBlockProps) => {
   const commonConfig = getCommonConfig();
   const context = React.useContext(ConfigProvider.ConfigContext);
   const isDarkMode = context.theme?.algorithm === theme.darkAlgorithm;
-  const { sparkPrefix, antPrefix } = commonConfig;
+  const { sparkPrefix } = commonConfig;
   
   const Style = useStyle();
 

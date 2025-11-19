@@ -3,6 +3,7 @@ import $i18n from '@/i18n';
 import { SparkMoreLine } from '@agentscope-ai/icons';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Flex, Pagination, PaginationProps } from 'antd';
+import classNames from 'classnames';
 import { useStyle } from './index.style';
 
 const DEFAULT_SHOW_SIZE_CHANGE = {
@@ -59,7 +60,7 @@ export interface SparkPaginationProps extends PaginationProps {
   hideSwitchButton?: boolean;
 }
 export default (props: SparkPaginationProps) => {
-  const { hideSwitchButton = false, ...restProps } = props;
+  const { hideSwitchButton = false, className, ...restProps } = props;
   const { sparkPrefix } = getCommonConfig();
   const Style = useStyle();
 
@@ -151,7 +152,7 @@ export default (props: SparkPaginationProps) => {
         itemRender={mergedItemRender()}
         {...restProps}
         showSizeChanger={getMergedShowSizeChange()}
-        className={`${sparkPrefix}-pagination`}
+        className={classNames(`${sparkPrefix}-pagination`, className)}
       />
     </>
   );

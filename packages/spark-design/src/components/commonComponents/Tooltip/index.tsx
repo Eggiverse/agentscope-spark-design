@@ -22,7 +22,6 @@ const SparkTooltip = forwardRef<any, SparkTooltipProps & TooltipProps>(
       arrow,
       overlayClassName,
       getPopupContainer,
-      align,
       ...restProps
     } = props;
     const { sparkPrefix, antPrefix } = getCommonConfig();

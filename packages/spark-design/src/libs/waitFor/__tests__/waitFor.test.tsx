@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from 'vitest';
+import { afterEach, expect, test } from 'vitest';
 import { waitForFunc, waitForDom } from '..';
 import { cleanup, render } from '@testing-library/react';
 import { useEffect, useState } from 'react';

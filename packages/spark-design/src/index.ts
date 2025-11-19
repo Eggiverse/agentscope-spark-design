@@ -2,6 +2,7 @@ import bailianDarkThemeJson from './antd/themes/bailianDarkTheme.json';
 import bailianThemeJson from './antd/themes/bailianTheme.json';
 import carbonDarkThemeJson from './antd/themes/carbonDarkTheme.json';
 import carbonThemeJson from './antd/themes/carbonTheme.json';
+import generateTheme from './antd/themes/generateTheme';
 import generateThemeByToken from './antd/themes/generateThemeByToken';
 
 /**
@@ -234,6 +235,7 @@ export {
   bailianTheme,
   carbonDarkTheme,
   carbonTheme,
+  generateTheme,
   generateThemeByToken,
   bailianDarkTheme as purpleDarkTheme,
   bailianTheme as purpleTheme,

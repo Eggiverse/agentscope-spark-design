@@ -84,6 +84,13 @@
   "colorMauve": "#8E8C99",
   "colorMauveHover": "#BBB8CA",
   "colorMauveBg": "rgba(239, 240, 243, 0.2)",
+ "colorSlate": "#2C3A50",
+  "colorSlateHover": "#354252",
+  "colorSlateBg": "#232B36",
+  "colorLavender": "#A77BFF",
+  "colorLavenderHover": "#BFA5F3",
+  "colorLavenderBg": "rgba(150, 143, 167, 0.48)",
+
   "boxShadowTertiary": "0px 12px 32px -16px rgba(255, 255, 255, 0.16),0px 12px 60px 0px rgba(255, 255, 255, 0.08),0px 0px 1px 0px rgba(255, 255, 255, 0.02)",
   "boxShadowTertiaryLeft": "-12px 0px 32px -16px rgba(255, 255, 255, 0.16),-12px 0px 60px 0px rgba(255, 255, 255, 0.08),0px 0px 1px 0px rgba(255, 255, 255, 0.02);",
   "boxShadowInput": "0px 12px 24px -16px rgba(255, 255, 255, 0.08),0px 12px 40px 0px rgba(255, 255, 255, 0.16),0px 0px 1px 0px rgba(255, 255, 255, 0.04)"

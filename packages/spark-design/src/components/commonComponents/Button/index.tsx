@@ -1,10 +1,9 @@
+import { Tooltip } from '@agentscope-ai/design';
 import { SparkLoadingLine } from '@agentscope-ai/icons';
 import { Button as AntdButton, ButtonProps, ConfigProvider, theme } from 'antd';
 import classNames from 'classnames';
 import React, { ReactNode, forwardRef, useMemo } from 'react';
 import IconFont, { SparkIconFontProps } from '../IconFont';
-import Popover from '../Popover';
-import { Tooltip } from '@agentscope-ai/design';
 
 // @ts-ignore
 export interface SparkButtonProps extends ButtonProps {
@@ -111,8 +110,10 @@ const Button = forwardRef<any, SparkButtonProps>((props, ref) => {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: token.token.colorText,
-            colorPrimaryHover: token.token.colorTextSecondary,
+            // @ts-ignore
+            colorPrimary: token.token.colorSlate,
+            // @ts-ignore
+            colorPrimaryHover: token.token.colorSlateHover,
             colorPrimaryActive: token.token.colorTextBase,
           },
         }}

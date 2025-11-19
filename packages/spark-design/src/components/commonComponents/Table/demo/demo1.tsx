@@ -78,34 +78,18 @@ const App: React.FC = () => {
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      title: 'First Column Row 1',
-      content: 'Content Row 1',
-      switch: 'Switch Row 1',
-      status: 'Status Row 1',
-      tags: ['Tag1'],
-    },
-    {
-      key: '2',
-      title: 'First Column Row 2',
-      content: 'Content Row 2',
-      switch: 'Switch Row 2',
-      status: 'Status Row 2',
-      tags: ['Tag2'],
-    },
-    {
-      key: '3',
-      title: 'First Column Row 3',
-      content: 'Content Row 3',
-      switch: 'Switch Row 3',
-      status: 'Status Row 3',
-      tags: ['Tag3'],
-    },
-  ];
+  const data = new Array(3).fill(0).map((_, index) => ({
+    key: index.toString(),
+    title: `First Column Row ${index + 1}`,
+    content: `Content Row ${index + 1}`,
+    switch: `Switch Row ${index + 1}`,
+    status: `Status Row ${index + 1}`,
+    tags: [`Tag${index + 1}`],
+  }));
 
-  return <Table columns={columns} dataSource={data} pagination={false} />;
+  return (
+    <Table columns={columns} dataSource={data} pagination={{ pageSize: 10 }} />
+  );
 };
 
 export default App;

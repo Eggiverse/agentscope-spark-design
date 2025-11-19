@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import { getCommonConfig } from '@/config';
 import { IconButton, Progress } from '@agentscope-ai/design';
 import {
-  SparkPauseFill,
-  SparkVolumeLine,
   SparkEnlargeLine,
-  SparkPlayFill,
   SparkMuteLine,
+  SparkPauseFill,
+  SparkPlayFill,
+  SparkVolumeLine,
 } from '@agentscope-ai/icons';
-import { getCommonConfig } from '@/config';
+import React, { useMemo } from 'react';
 
 interface VideoPlayerControllerProps {
   isPlaying: boolean;
@@ -30,7 +30,9 @@ interface VideoPlayerControllerProps {
 const formatTime = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.floor(seconds % 60);
-  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
+    .toString()
+    .padStart(2, '0')}`;
 };
 
 /**
@@ -60,7 +62,10 @@ const VideoPlayerController: React.FC<VideoPlayerControllerProps> = (props) => {
   }, [props.duration]);
 
   const progress = useMemo(() => {
-    return Math.min(((props.currentTime || 0) / (props.duration || 0.01)) * 100, 100);
+    return Math.min(
+      ((props.currentTime || 0) / (props.duration || 0.01)) * 100,
+      100,
+    );
   }, [props.currentTime, props.duration]);
 
   /**
@@ -83,7 +88,9 @@ const VideoPlayerController: React.FC<VideoPlayerControllerProps> = (props) => {
 
   return (
     <>
-      <div className={`${sparkPrefix}-video-player-controller ${className || ''}`}>
+      <div
+        className={`${sparkPrefix}-video-player-controller ${className || ''}`}
+      >
         <IconButton
           bordered={false}
           size="small"
@@ -104,8 +111,15 @@ const VideoPlayerController: React.FC<VideoPlayerControllerProps> = (props) => {
 
         <span className={`${sparkPrefix}-video-time-text`}>{currentTime}</span>
 
-        <div className={`${sparkPrefix}-video-progress-container`} onClick={handleProgressClick}>
-          <Progress className={`${sparkPrefix}-video-progress-bar`} percent={progress} showInfo={false} />
+        <div
+          className={`${sparkPrefix}-video-progress-container`}
+          onClick={handleProgressClick}
+        >
+          <Progress
+            className={`${sparkPrefix}-video-progress-bar`}
+            percent={progress}
+            showInfo={false}
+          />
         </div>
 
         <span className={`${sparkPrefix}-video-time-text`}>{duration}</span>

@@ -8,10 +8,14 @@ const PROD = env && env !== 'daily';
 
 export default defineConfig({
   history: { type: 'browser' },
+  define: {
+    MOBILE: process.env.ONLY_MOBILE === '1',
+  },
   alias: {
     '@': ['/src'],
     '@dumi': ['/.dumi'],
     '@agentscope-ai/design': ['/src'],
+    '@agnetscope-ai/design/lib': ['/lib'],
     '@ant-design/icons': ['/node_modules/@agentscope-ai/icons-override-antd'],
     '@ant-design/icons-svg': [
       '/node_modules/@agentscope-ai/icons-svg-override-antd',
@@ -20,7 +24,7 @@ export default defineConfig({
   base: process.env.GITHUB_PAGES ? '/sd-doc/' : '/',
   publicPath: process.env.GITHUB_PAGES ? '/sd-doc/' : '/',
   outputPath: 'dist',
-  hash: true,
+  hash: false,
   themeConfig: {
     demoTitle: {
       llmTxtBase: `https://${

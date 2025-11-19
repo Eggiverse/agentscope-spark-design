@@ -1,5 +1,4 @@
 import { Empty } from '@agentscope-ai/design';
-import { Flex } from 'antd';
 
 export default () => {
   return (
