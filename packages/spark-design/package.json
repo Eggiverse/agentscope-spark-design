@@ -2,7 +2,11 @@
   "name": "@agentscope-ai/design",
   "version": "1.0.14",
   "description": "AgentScope Spark Design - UI Library for AgentScope AI",
-  "repository": "http://gitlab.alibaba-inc.com/liveme-console/spark-design.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentscope-ai/agentscope-spark-design.git",
+    "directory": "packages/spark-design"
+  },
   "license": "MIT",
   "sideEffects": [
     "*.less",
