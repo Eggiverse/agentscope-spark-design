@@ -14,13 +14,11 @@ export default defineConfig({
   alias: {
     '@': ['/src'],
     '@dumi': ['/.dumi'],
-    '@agentscope-ai/design/lib/antd/themes': ['/lib/antd/themes'],
-    '@agentscope-ai/design/lib': ['/lib'],
+    '@agentscope-ai/design/lib/antd/themes': ['/src/antd/themes'],
+    '@agentscope-ai/design/lib': ['/src'],
     '@agentscope-ai/design': ['/src'],
-    '@ant-design/icons': ['/node_modules/@agentscope-ai/icons-override-antd'],
-    '@ant-design/icons-svg': [
-      '/node_modules/@agentscope-ai/icons-svg-override-antd',
-    ],
+    '@ant-design/icons': ['@agentscope-ai/icons-override-antd'],
+    '@ant-design/icons-svg': ['@agentscope-ai/icons-svg-override-antd'],
   },
   base: process.env.GITHUB_PAGES ? '/sd-doc/' : '/',
   publicPath: process.env.GITHUB_PAGES ? '/sd-doc/' : '/',

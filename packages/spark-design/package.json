@@ -1,6 +1,6 @@
 {
   "name": "@agentscope-ai/design",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "AgentScope Spark Design - UI Library for AgentScope AI",
   "repository": "http://gitlab.alibaba-inc.com/liveme-console/spark-design.git",
   "license": "MIT",
@@ -49,6 +49,7 @@
     "@codemirror/lang-python": "^6.1.7",
     "@codemirror/lang-yaml": "^6.1.2",
     "@codemirror/lint": "^6.8.4",
+    "@codemirror/view": "^6.38.8",
     "@emotion/react": "^11.14.0",
     "@halofe/global-locale": "^1.0.3",
     "@halofe/global-string-format": "^1.0.8",
