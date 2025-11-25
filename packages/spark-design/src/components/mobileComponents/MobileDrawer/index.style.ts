@@ -3,18 +3,21 @@ import createGlobalStyle from '@/libs/createStyle';
 export const useStyle = createGlobalStyle`
 .${(p) => p.sparkPrefix}-drawer {
   .${(p) => p.antPrefix}-drawer-header {
-    padding: 16px 20px;
+    padding: 12px 20px;
     border-bottom: none;
     
     .${(p) => p.antPrefix}-drawer-header-title {
       display: flex;
-      flex-direction: row-reverse;
+      flex-direction: row;
       
       .${(p) => p.antPrefix}-drawer-title {
         font-size: 16px;
         font-weight: 500;
         line-height: 28px;
         color: var(--${(p) => p.antPrefix}-color-text);
+        display: flex;
+        justify-content: center;
+        padding-right: 32px;
       }
       
       .${(p) => p.antPrefix}-drawer-close {

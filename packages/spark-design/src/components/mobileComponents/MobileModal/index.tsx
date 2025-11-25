@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useEffect } from 'react';
 import { useStyle } from './index.style';
 
-export interface SparkModalProps extends ModalProps {
+export interface SparkMobileModalProps extends ModalProps {
   /**
    * @description 底部额外内容
    * @descriptionEn footer extra content
@@ -38,7 +38,7 @@ const lockBodyScroll = () => {
   };
 };
 
-const SparkModal = (props: SparkModalProps) => {
+const SparkMobileModal = (props: SparkMobileModalProps) => {
   const Style = useStyle();
   const { sparkPrefix } = getCommonConfig();
   const { showDivider = true, closable = true, ...restProps } = props;
@@ -102,16 +102,58 @@ const SparkModal = (props: SparkModalProps) => {
   );
 };
 
-SparkModal.useModal = Modal.useModal;
-SparkModal.success = Modal.success;
-SparkModal.error = Modal.error;
-SparkModal.warning = Modal.warning;
-SparkModal.info = Modal.info;
-SparkModal.confirm = Modal.confirm;
+SparkMobileModal.useModal = Modal.useModal;
 
-SparkModal.SMALL_WIDTH = 640;
-SparkModal.MEDIUM_WIDTH = 800;
-SparkModal.LARGE_WIDTH = 960;
+const wrapStaticMethod = (method: typeof Modal.confirm) => {
+  return (config) => {
+    const unlock = lockBodyScroll();
+    const { sparkPrefix } = getCommonConfig();
+    
+    const originalAfterClose = config?.afterClose;
+    const originalContent = config?.content;
+    
+    // 包装 content 以注入样式
+    function ContentWrapper() {
+      const Style = useStyle();
+      return (
+        <>
+          <Style />
+          {originalContent}
+        </>
+      );
+    }
+    
+    // 移动端样式配置
+    const mobileConfig = {
+      ...config,
+      content: <ContentWrapper />,
+      width: config.width || 'auto',
+      centered: false,
+      transitionName: '',
+      wrapClassName: classNames(
+        `${sparkPrefix}-modal`,
+        config.wrapClassName,
+        'animate-in',
+      ),
+      afterClose: (...args) => {
+        unlock();
+        originalAfterClose?.(...args);
+      },
+    };
+    
+    return method(mobileConfig);
+  };
+};
 
-export default SparkModal;
+SparkMobileModal.success = wrapStaticMethod(Modal.success);
+SparkMobileModal.error = wrapStaticMethod(Modal.error);
+SparkMobileModal.warning = wrapStaticMethod(Modal.warning);
+SparkMobileModal.info = wrapStaticMethod(Modal.info);
+SparkMobileModal.confirm = wrapStaticMethod(Modal.confirm);
+
+SparkMobileModal.SMALL_WIDTH = 640;
+SparkMobileModal.MEDIUM_WIDTH = 800;
+SparkMobileModal.LARGE_WIDTH = 960;
+
+export default SparkMobileModal;
 

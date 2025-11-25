@@ -8,11 +8,11 @@ import {
 } from '@ant-design/icons';
 import { Flex, Modal } from 'antd';
 import classNames from 'classnames';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useEffect } from 'react';
 import { getCommonConfig } from '../../../config';
 import { useStyle } from './index.style';
 
-export interface AlertDialogProps extends ModalProps {
+export interface MobileAlertDialogProps extends ModalProps {
   /**
    * @description 类型
    * @descriptionEn type
@@ -39,7 +39,27 @@ export interface AlertDialogProps extends ModalProps {
   onClose?: (e: SyntheticEvent<Element, Event>) => any;
 }
 
-const getCommonProps = (props: AlertDialogProps) => {
+const lockBodyScroll = () => {
+  const originalStyle = window.getComputedStyle(document.body).overflow;
+  const originalPosition = window.getComputedStyle(document.body).position;
+  const scrollY = window.scrollY;
+
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
+  document.body.style.top = `-${scrollY}px`;
+
+  // 返回解锁函数
+  return () => {
+    document.body.style.overflow = originalStyle;
+    document.body.style.position = originalPosition;
+    document.body.style.width = '';
+    document.body.style.top = '';
+    window.scrollTo(0, scrollY);
+  };
+};
+
+const getCommonProps = (props: MobileAlertDialogProps) => {
   const renderTitle = ({ type, title }) => {
     const { antPrefix } = getCommonConfig();
 
@@ -114,7 +134,7 @@ const getCommonProps = (props: AlertDialogProps) => {
     type = 'info',
     danger = false,
     title,
-    width = '400px',
+    width = 'auto',
     className = '',
     ...restProps
   } = props;
@@ -137,9 +157,17 @@ const getCommonProps = (props: AlertDialogProps) => {
   };
 };
 
-const AlertDialog = (props: AlertDialogProps) => {
+const MobileAlertDialog = (props: MobileAlertDialogProps) => {
   const commonProps = getCommonProps(props);
   const Style = useStyle();
+
+  // 移动端：禁止 body 滚动
+  useEffect(() => {
+    if (props.open) {
+      const unlock = lockBodyScroll();
+      return unlock;
+    }
+  }, [props.open]);
 
   return (
     <>
@@ -166,14 +194,15 @@ const staticFns = [
   'warning',
   'error',
   'confirm',
-] as AlertDialogProps['type'][];
+] as MobileAlertDialogProps['type'][];
 
-type AlertDialogStaticProps = Omit<AlertDialogProps, 'type' | 'open'>;
+type MobileAlertDialogStaticProps = Omit<MobileAlertDialogProps, 'type' | 'open'>;
 
 staticFns.forEach((type) => {
-  AlertDialog[type] = (props: AlertDialogStaticProps) => {
+  MobileAlertDialog[type] = (props: MobileAlertDialogStaticProps) => {
     const commonProps = getCommonProps({ ...props, type });
-
+    const unlock = lockBodyScroll();
+    
     function Content() {
       const Style = useStyle();
       return (
@@ -190,16 +219,22 @@ staticFns.forEach((type) => {
       ...commonProps.restProps,
       content: <Content />,
       icon: null,
+      afterClose: (...args) => {
+        unlock();
+        if (commonProps.restProps?.afterClose) {
+          commonProps.restProps.afterClose(...args);
+        }
+      },
     });
   };
 });
 
-export default AlertDialog as {
-  (props: AlertDialogProps): JSX.Element;
-  success: (props?: AlertDialogStaticProps) => void;
-  info: (props?: AlertDialogStaticProps) => void;
-  warning: (props?: AlertDialogStaticProps) => void;
-  error: (props?: AlertDialogStaticProps) => void;
-  confirm: (props?: AlertDialogStaticProps) => void;
+export default MobileAlertDialog as {
+  (props: MobileAlertDialogProps): JSX.Element;
+  success: (props?: MobileAlertDialogStaticProps) => void;
+  info: (props?: MobileAlertDialogStaticProps) => void;
+  warning: (props?: MobileAlertDialogStaticProps) => void;
+  error: (props?: MobileAlertDialogStaticProps) => void;
+  confirm: (props?: MobileAlertDialogStaticProps) => void;
 };
 
