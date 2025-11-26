@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "husky",
     "start:spark-design": "cd packages/spark-design && pnpm install && pnpm run start",
-    "start:spark-chat": "cd packages/spark-chat && pnpm install && pnpm run start",
+    "start:spark-chat": "cd packages/spark-chat && npm install && npm run start",
     "build": "cd packages/spark-design && pnpm install && pnpm run build && cd packages/spark-chat && pnpm install && pnpm run build",
     "build:spark-design": "cd packages/spark-design && pnpm install && pnpm run build",
     "build:spark-chat": "cd packages/spark-chat && pnpm install && pnpm run build",

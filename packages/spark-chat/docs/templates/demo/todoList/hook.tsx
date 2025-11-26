@@ -1,7 +1,7 @@
 import { useCopilotAction, useCopilotReadable } from "@agentscope-ai/chat";
 import { createContext, useContext, useState, ReactNode } from "react";
 import { Button, Card } from 'antd';
-import { CodeBlock } from "@ali/agentscope-ai-design";
+import { CodeBlock } from "@agentscope-ai/design";
 
 export type Task = {
   id: number;

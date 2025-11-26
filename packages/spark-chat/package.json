@@ -1,6 +1,6 @@
 {
-  "name": "@ali/agentscope-ai-chat",
-  "version": "1.1.20",
+  "name": "@agentscope-ai/chat",
+  "version": "1.1.37",
   "description": "a free and open-source chat framework for building excellent LLM-powered chat experiences",
   "license": "Apache-2.0",
   "sideEffects": [
@@ -10,13 +10,18 @@
   ],
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "bin": {
+    "agentscope-runtime-webui": "./bin/cli.js"
+  },
   "files": [
-    "lib"
+    "lib",
+    "bin",
+    "components"
   ],
   "scripts": {
     "build": "npm run src:build && npm run docs:build",
     "build:doc-api": "rm -rf node_modules && tnpm i && npm run start",
-    "build:publish": "NPM_PUBLISH=1 npm run src:build",
+    "build:publish": "NPM_PUBLISH=1 npm run build:cli && npm run src:build",
     "build:watch": "father dev",
     "dev": "dumi dev",
     "docs:build": "dumi build",
@@ -26,7 +31,7 @@
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "llms:build": "LLM=true dumi build",
-    "prepare": "husky install && dumi setup",
+    "prepare": "dumi setup",
     "src:build": "father build",
     "start": "npm run dev"
   },
@@ -53,6 +58,7 @@
     ]
   },
   "dependencies": {
+    "@agentscope-ai/design": "^1.0.0",
     "@agentscope-ai/icons": "^1.0.32",
     "@agentscope-ai/icons-override-antd": "^6.0.0",
     "@agentscope-ai/icons-svg-override-antd": "^4.4.2",
@@ -96,13 +102,15 @@
     "use-stick-to-bottom": "^1.1.1",
     "uuid": "^11.0.5",
     "xstate": "^5.19.4",
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.3",
+    "vite": "^5.4.11",
+    "antd": "^5.18.0",
+    "commander": "^12.1.0"
   },
   "devDependencies": {
-    "@ali/agentscope-ai-design": "^4.7.14-beta.1763108564573",
-    "@ali/dumi-plugin-api-parser": "^1.0.3",
-    "@ali/dumi-plugin-llms": "^1.0.3",
-    "@ali/dumi-theme-spark": "^0.0.97",
+    "@agentscope-ai/dumi-theme-spark": "0.0.98",
+    "@alibot/dumi-plugin-api-parser": "1.0.3",
+    "@alibot/dumi-plugin-llms": "1.0.4",
     "@ant-design/charts": "^2.6.2",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
@@ -111,9 +119,11 @@
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
     "@umijs/plugins": "^4.4.11",
-    "antd": "^5.18.0",
     "dumi": "^2.4.13",
+    "esbuild": "^0.19.12",
     "eslint": "^8.23.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "father": "^4.1.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
@@ -121,23 +131,16 @@
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
     "prettier-plugin-packagejson": "^2.2.18",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "stylelint": "^14.9.1",
     "tailwindcss": "^3.4.17",
     "vaso": "^0.4.0"
   },
   "peerDependencies": {
     "@agentscope-ai/design": "^1.0.0",
-    "@ali/agentscope-ai-design": "^4.6.0",
     "@ant-design/icons": "^5.0.1",
     "antd": "^5.18.0",
-    "classnames": "^2.5.1",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.anpm.alibaba-inc.com"
   },
   "authors": []
 }

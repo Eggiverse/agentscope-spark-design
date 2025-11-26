@@ -4,7 +4,7 @@ import { TasksProvider } from './hook';
 import { CopilotKit } from "@agentscope-ai/chat";
 import { createStyles } from 'antd-style';
 import Chat from './Chat';
-import { ConfigProvider, carbonTheme } from '@ali/agentscope-ai-design';
+import { ConfigProvider, carbonTheme } from '@agentscope-ai/design';
 
 const useStyles = createStyles(({ css, token }) => ({
   container: css`
