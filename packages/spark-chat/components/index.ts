@@ -30,7 +30,7 @@ export type { ChatAnywhereRef, TMessage, TSession } from './ChatAnywhere';
 export * as DefaultCards from './DefaultCards';
 
 export { default as AgentScopeRuntimeWebUI } from './AgentScopeRuntimeWebUI';
-export * from './AgentScopeRuntimeWebUI/lib/types';
+export * from './AgentScopeRuntimeWebUI/core/types';
 
 export {
   Accordion,

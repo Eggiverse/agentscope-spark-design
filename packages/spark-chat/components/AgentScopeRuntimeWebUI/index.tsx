@@ -1,3 +1,3 @@
-export { default } from './lib/ChatAnywhere';
+export { default } from './core/ChatAnywhere';
 export { default as Demo } from './starter';
-export *  from './lib/types';
+export *  from './core/types';

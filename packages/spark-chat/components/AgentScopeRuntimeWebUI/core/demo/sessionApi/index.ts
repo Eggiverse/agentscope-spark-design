@@ -1,5 +1,5 @@
 import { IAgentScopeRuntimeWebUISessionAPI } from '@agentscope-ai/chat';
-import { IAgentScopeRuntimeWebUISession } from '../../core/types/ISessions';
+import { IAgentScopeRuntimeWebUISession } from '../../lib/types/ISessions';
 
 class SessionApi implements IAgentScopeRuntimeWebUISessionAPI {
   private lsKey: string;
