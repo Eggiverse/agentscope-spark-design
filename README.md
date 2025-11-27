@@ -13,7 +13,7 @@
 | 包名 | 路径 | 描述 |
 | --- | --- | --- |
 | **@agentscope-ai/design** | `packages/spark-design` | 核心设计系统组件库，基于 Ant Design 封装的 UI 组件 |
-| **@ali/agentscope-ai-chat** | `packages/spark-chat` | LLM 对话组件库，用于构建 AI 聊天体验 |
+| **@agentscope-ai/chat** | `packages/spark-chat` | LLM 对话组件库，用于构建 AI 聊天体验 |
 
 ## 🚀 快速开始
 
