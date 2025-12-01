@@ -2,12 +2,13 @@ import { useProviderContext } from '@agentscope-ai/chat';
 import Style from './styles';
 import cls from 'classnames';
 import { useChatAnywhereOptions } from '../Context/ChatAnywhereOptionsContext';
-import { useContext } from 'react';
+import { forwardRef, useContext } from 'react';
 import Chat from '../Chat';
 import Sessions from '../Sessions';
 import { ChatAnyWhereLayoutContext } from '../Context/ChatAnywhereLayoutContext';
 import Header from '../Header';
 import React from 'react';
+import Ref from '../Ref';
 
 interface IProps {
   className?: string;
@@ -15,7 +16,7 @@ interface IProps {
   right?: React.ReactNode;
 }
 
-export default function (props: IProps) {
+function Layout(props: IProps, ref: React.Ref<any>) {
   const { className } = props;
   const prefixCls = useProviderContext().getPrefixCls('chat-anywhere-layout');
   const narrowMode = useChatAnywhereOptions(v => v.theme.narrowMode);
@@ -41,5 +42,8 @@ export default function (props: IProps) {
         <Chat />
       </div>
     </div>
+    <Ref ref={ref} />
   </>;
 }
+
+export default forwardRef(Layout);

@@ -1,12 +1,13 @@
-import { AgentScopeRuntimeWebUI } from '@agentscope-ai/chat';
+import { AgentScopeRuntimeWebUI, IAgentScopeRuntimeWebUIRef } from '@agentscope-ai/chat';
 import OptionsPanel from './OptionsPanel';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import sessionApi from './sessionApi';
 import defaultConfig from './OptionsPanel/defaultConfig';
 import { useLocalStorageState } from 'ahooks';
 
 export default function () {
 
+  const chatRef = useRef<IAgentScopeRuntimeWebUIRef>(null);
   const [optionsConfig, setOptionsConfig] = useLocalStorageState('agent-scope-runtime-webui-options', {
     defaultValue: defaultConfig(),
     listenStorageChange: true,
@@ -51,6 +52,7 @@ export default function () {
 
   return <div style={{ height: '100dvh' }}>
     <AgentScopeRuntimeWebUI
+      ref={chatRef}
       options={options}
     />
   </div>;

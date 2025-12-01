@@ -35,7 +35,9 @@ export default function useChatRequest(options: UseChatRequestOptions) {
     const currentApiOptions = apiOptionsRef.current;
     let response
     try {
-      response = await fetch(currentApiOptions.baseURL, {
+      response = currentApiOptions.fetch ? await currentApiOptions.fetch({
+        input: historyMessages,
+      }) : await fetch(currentApiOptions.baseURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,6 +50,7 @@ export default function useChatRequest(options: UseChatRequestOptions) {
         }),
       });
     } catch (error) {
+      
 
     }
 

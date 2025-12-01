@@ -1,16 +1,16 @@
 import Layout from '../Layout';
 import type { IAgentScopeRuntimeWebUIOptions } from '@agentscope-ai/chat';
-import { useMemo } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import AgentScopeRuntimeRequestCard from '../AgentScopeRuntime/Request/Card';
 import AgentScopeRuntimeResponseCard from '../AgentScopeRuntime/Response/Card';
 import ComposedProvider from './ComposedProvider';
+import React from 'react';
 
 interface IProps {
   options: IAgentScopeRuntimeWebUIOptions;
 }
-export default function ChatAnywhere(props: IProps) {
+function ChatAnywhere(props: IProps, ref: React.Ref<any>) {
   const { options = {} as IAgentScopeRuntimeWebUIOptions } = props;
-
   const cards = useMemo(() => {
     const res = {
       AgentScopeRuntimeRequestCard,
@@ -23,7 +23,10 @@ export default function ChatAnywhere(props: IProps) {
 
   return <>
     <ComposedProvider options={options} cards={cards}>
-      <Layout />
+      <Layout ref={ref} />
     </ComposedProvider>
   </>;
 }
+
+
+export default forwardRef(ChatAnywhere);

@@ -10,12 +10,19 @@ export interface IAgentScopeRuntimeWebUIAPIOptions {
    * @description 基础URL
    * @descriptionEn Base URL
    */
-  baseURL: string;
+  baseURL?: string;
   /**
    * @description 鉴权参数
    * @descriptionEn Authorization Token
    */
   token?: string;
+  /**
+   * @description 请求函数
+   * @descriptionEn Request function
+   * @param data
+   * @returns
+   */
+  fetch?: (data: { input: any[] }) => Promise<Response>;
 }
 
 /**
@@ -224,17 +231,23 @@ export interface IAgentScopeRuntimeWebUISessionAPI {
    * @description 更新会话
    * @descriptionEn Update session
    */
-  updateSession?: (session: Partial<IAgentScopeRuntimeWebUISession>) => Promise<IAgentScopeRuntimeWebUISession[]>;
+  updateSession?: (
+    session: Partial<IAgentScopeRuntimeWebUISession>,
+  ) => Promise<IAgentScopeRuntimeWebUISession[]>;
   /**
    * @description 创建会话
    * @descriptionEn Create session
    */
-  createSession?: (session: Partial<IAgentScopeRuntimeWebUISession>) => Promise<IAgentScopeRuntimeWebUISession[]>;
+  createSession?: (
+    session: Partial<IAgentScopeRuntimeWebUISession>,
+  ) => Promise<IAgentScopeRuntimeWebUISession[]>;
   /**
    * @description 删除会话
    * @descriptionEn Remove session
    */
-  removeSession?: (session: Partial<IAgentScopeRuntimeWebUISession>) => Promise<IAgentScopeRuntimeWebUISession[]>;
+  removeSession?: (
+    session: Partial<IAgentScopeRuntimeWebUISession>,
+  ) => Promise<IAgentScopeRuntimeWebUISession[]>;
 }
 
 /**
