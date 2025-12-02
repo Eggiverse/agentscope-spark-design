@@ -73,6 +73,5 @@ $$
 export default function () {
   return <MarkdownX
     content={content}
-    typing={true}
   />;
 }

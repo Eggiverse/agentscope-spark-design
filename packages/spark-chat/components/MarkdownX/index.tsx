@@ -4,7 +4,7 @@ import type { MarkdownProps } from './types';
 import useTyping from './core/hooks/useTyping';
 import { useProviderContext } from '@agentscope-ai/chat';
 import classNames from 'classnames';
-
+import Styles from './styles';
 
 
 export default memo(function (props: MarkdownProps) {
@@ -14,10 +14,13 @@ export default memo(function (props: MarkdownProps) {
   const prefixCls = useProviderContext().getPrefixCls('markdown');
 
 
-  return <MarkdownX
-    style={{ fontSize: baseFontSize, lineHeight: baseLineHeight }}
-    openLinksInNewTab={true}
-    className={classNames(prefixCls, props.className)}
-    content={content}
-  />;
+  return <>
+    <Styles />
+    <MarkdownX
+      style={{ fontSize: baseFontSize, lineHeight: baseLineHeight }}
+      openLinksInNewTab={true}
+      className={classNames(prefixCls, props.className)}
+      content={content}
+    />
+  </>;
 });
