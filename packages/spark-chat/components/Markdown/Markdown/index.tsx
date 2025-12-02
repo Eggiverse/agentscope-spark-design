@@ -118,7 +118,6 @@ function supportsLookbehindAssertions(): boolean {
 
 const isSupportsLookbehindAssertions = supportsLookbehindAssertions();
 
-console.log({ isSupportsLookbehindAssertions });
 
 export default memo(function (props: MarkdownProps) {
   const baseFontSize = props.baseFontSize || 14;

@@ -49,7 +49,7 @@ const Markdown: React.FC<MarkdownProps> = (props) => {
   const htmlString = parser.parse(displayContent);
   return (
     <>
-      <Style />
+      {/* <Style /> */}
       <div className={mergedCls} style={mergedStyle}>
         {renderer.render(htmlString)}
       </div>
