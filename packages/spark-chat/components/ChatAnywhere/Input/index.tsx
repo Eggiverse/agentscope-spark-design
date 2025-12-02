@@ -14,9 +14,14 @@ export default forwardRef(function (_, ref) {
   const onUpload = useChatAnywhere(v => v.onUpload);
   const resetData = new Array(onUpload?.length || 0).fill([]);
   const [attachedFiles, setAttachedFiles] = React.useState<AttachedFiles[]>(resetData);
+  const attachedFilesRef = useRef<AttachedFiles[]>(resetData);
   useEffect(() => {
     setAttachedFiles(resetData);
   }, [resetData.length]);
+
+  useEffect(() => {
+    attachedFilesRef.current = attachedFiles;
+  }, [attachedFiles]);
 
   const inputContext = useInput();
   const uiConfig = useChatAnywhere(v => v.uiConfig);
@@ -43,7 +48,9 @@ export default forwardRef(function (_, ref) {
 
   React.useImperativeHandle(ref, () => {
     return {
-      setInputContent: setContent
+      setInputContent: setContent,
+      getAttachedFiles: () => attachedFilesRef.current,
+
     };
   }, []);
 
