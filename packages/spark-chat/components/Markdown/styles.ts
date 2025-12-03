@@ -140,4 +140,13 @@ export default createGlobalStyle`
     margin: 0;
   }
 }
+
+
+.${(p) => p.theme.prefixCls}-markdown  > *:last-child {
+  margin-bottom: 0 !important;
+}
+
+.${(p) => p.theme.prefixCls}-markdown  > *:first-child {
+  margin-top: 0 !important;
+}
 `;
