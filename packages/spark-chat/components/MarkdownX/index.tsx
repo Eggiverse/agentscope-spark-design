@@ -61,7 +61,8 @@ export default memo(function (props: MarkdownProps) {
     style: Null,
     script: Null,
     img: props.disableImage ? DisabledImage : Media,
-  }), [props.disableImage]);
+    citation: CitationComponent,
+  }), [props.disableImage, CitationComponent]);
 
 
   const dompurifyConfig = useMemo(() =>

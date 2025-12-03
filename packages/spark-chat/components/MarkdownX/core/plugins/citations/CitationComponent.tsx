@@ -44,7 +44,10 @@ export interface CitationComponentProps extends DefaultRenderProps {
 function DefaultRender(props: DefaultRenderProps) {
   const { getPrefixCls } = useProviderContext();
   const prefixCls = getPrefixCls('markdown-citation');
-  const { text, url, title, content } = props;
+  const text = props['data-text'];
+  const url = props['data-url'];
+  const title = props['data-title'];
+  const content = props['data-content'];
 
   const isTooltip = content || title;
 
@@ -67,6 +70,5 @@ function DefaultRender(props: DefaultRenderProps) {
 
 export default function CitationComponent(props: DefaultRenderProps & { citationsData: Record<string, any> }) {
   const Render = props.citationsData[props.text]?.render || DefaultRender;
-
   return <Render {...props} />
 }
