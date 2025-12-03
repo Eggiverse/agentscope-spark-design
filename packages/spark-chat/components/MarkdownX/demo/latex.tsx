@@ -1,4 +1,4 @@
-import { MarkdownX } from '@agentscope-ai/chat';
+import { Markdown } from '@agentscope-ai/chat';
 
 
 const content = `三角函数是一类数学函数，主要用来描述直角三角形中的角度与边长之间的关系。最常用的三角函数包括正弦（sine, 简写为sin）、余弦（cosine, 简写为cos）和正切（tangent, 简写为tan）。此外还有它们的倒数：余割（cosecant, 简写为csc或cosec）、正割（secant, 简写为sec）和余切（cotangent, 简写为cot）。
@@ -71,7 +71,7 @@ $$
 
 
 export default function () {
-  return <MarkdownX
+  return <Markdown
     content={content}
   />;
 }

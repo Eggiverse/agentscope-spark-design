@@ -85,8 +85,4 @@ export {
   default as Markdown,
   type MarkdownProps as IMarkdownProps,
   type MarkdownProps,
-} from './Markdown';
-
-export {
-  default as MarkdownX,
 } from './MarkdownX';

@@ -2,12 +2,12 @@ import Underline from './Underline';
 import Dot from './Dot';
 
 export const CursorComponent = function (props) {
-
-  if (props.type === 'dot') {
+  const type = props['data-type'];
+  if (type === 'dot') {
     return <Dot />
   }
 
-  if (props.type === 'underline') {
+  if (type === 'underline') {
     return <Underline />
   }
 
@@ -42,7 +42,7 @@ export function cursorExtension() {
       if (!cursor) {
         return;
       }
-
+      
       return {
         type: 'cursor',
         raw: match[0],
@@ -51,7 +51,8 @@ export function cursorExtension() {
       };
     },
     renderer(token) {
-      const content = `<cursor type="${token.name}"></cursor>`;
+      const content = `<custom-cursor data-type="${token.name}"></custom-cursor>`;
+      
       return content;
     },
   };

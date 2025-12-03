@@ -1,5 +1,5 @@
 import React from 'react';
-import { MarkdownX } from '@agentscope-ai/chat';
+import { Markdown } from '@agentscope-ai/chat';
 
 const content = `杭州今天和未来几天的天气预报如下：
 
@@ -34,7 +34,7 @@ const citationsMap = [
 }, {});
 
 export default function () {
-  return <MarkdownX content={content} citationsMap={{
+  return <Markdown content={content} citationsMap={{
     ...citationsMap, two: {
       url: 'two',
       title: 'two',

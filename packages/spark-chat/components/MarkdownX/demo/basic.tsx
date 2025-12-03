@@ -1,4 +1,4 @@
-import { MarkdownX } from '@agentscope-ai/chat';
+import { Markdown } from '@agentscope-ai/chat';
 
 
 const content = `# 这是一个一级标题
@@ -89,5 +89,5 @@ sequenceDiagram
 `;
 
 export default function () {
-  return <MarkdownX content={content} />;
+  return <Markdown content={content} />;
 }

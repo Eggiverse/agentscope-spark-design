@@ -58,7 +58,6 @@ export interface MarkdownProps {
 
 
   citations?: {
-    
     title?: string;
     url?: string;
     content?: string;
@@ -87,5 +86,9 @@ export interface MarkdownProps {
 
 
 export interface InnerMarkdownXProps extends XMarkdownProps {
-
+  /**
+   * @description 光标样式类型，支持点状、下划线或布尔值控制
+   * @descriptionEn Cursor style type, supports dot, underline, or boolean control
+   */
+  cursor?: MarkdownProps['cursor'];
 }
