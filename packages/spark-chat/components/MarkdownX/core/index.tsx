@@ -1,6 +1,11 @@
 import XMarkdown from '@ant-design/x-markdown';
-import Latex from '@ant-design/x-markdown/plugins/Latex';
+import { InnerMarkdownXProps } from '../types';
+import Styles from '../styles';
 
-export default function (props) {
-  return <XMarkdown {...props} config={{ extensions: Latex() }} />;
+
+export default function (props: InnerMarkdownXProps) {
+  return <>
+    <Styles />
+    <XMarkdown {...props} />
+  </>;
 };

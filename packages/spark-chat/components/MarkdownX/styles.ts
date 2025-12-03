@@ -1,13 +1,9 @@
 import { createGlobalStyle } from 'antd-style';
 
 export default createGlobalStyle`
-.${(p) => p.theme.prefixCls}-markdown  {
+.${(p) => p.theme.prefixCls}-markdown {
   color: inherit;
   max-width: 100%;
-
-  ol, ul  {
-    padding-left: 30px;
-  }
 
   blockquote {
     padding-inline: 0.6em 0;
@@ -51,7 +47,6 @@ export default createGlobalStyle`
   }
 
   p {
-    margin-top: 0.5714285714285714em;
     margin-bottom: 0.5714285714285714em;
   }
 
@@ -130,23 +125,11 @@ export default createGlobalStyle`
       font-size: 30px;
     }
   }
-  
 }
 
-.${(p) => p.theme.prefixCls}-markdown  > *:last-child {
-  margin-bottom: 0 !important;
-}
-
-.${(p) => p.theme.prefixCls}-markdown  > *:first-child {
-  margin-top: 0 !important;
-}
-
-@keyframes ${(p) => p.theme.prefixCls}-markdown-fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+.${(p) => p.theme.prefixCls}-markdown.x-markdown {
+  img {
+    margin: 0;
   }
 }
 `;

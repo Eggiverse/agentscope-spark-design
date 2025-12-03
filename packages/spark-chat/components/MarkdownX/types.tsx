@@ -1,3 +1,6 @@
+import { XMarkdownProps } from '@ant-design/x-markdown';
+
+
 export interface MarkdownProps {
   /**
    * @description 需要渲染的 Markdown 内容
@@ -50,4 +53,39 @@ export interface MarkdownProps {
    * @descriptionEn CSS class name for the component
    */
   className?: string;
+
+
+
+
+  citations?: {
+    
+    title?: string;
+    url?: string;
+    content?: string;
+    render?: (props: {
+      text: string;
+      url: string;
+      title: string;
+      content: string;
+    }) => React.ReactNode;
+  }[];
+  citationsMap?: Record<
+    string,
+    {
+      title?: string;
+      url?: string;
+      content?: string;
+      render?: (props: {
+        text: string;
+        url: string;
+        title: string;
+        content: string;
+      }) => React.ReactNode;
+    }
+  >;
+}
+
+
+export interface InnerMarkdownXProps extends XMarkdownProps {
+
 }
