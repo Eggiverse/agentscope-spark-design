@@ -31,6 +31,14 @@ export default createGlobalStyle`
 
   pre code {
     font-size: 0.8571428571428571em;
+    background-color: transparent;
+    border: none;
+  }
+
+  pre {
+    background-color: ${(p) => p.theme.colorFillQuaternary};
+    padding: 4px 10px;
+    border: 1px solid ${(p) => p.theme.colorBorderSecondary};
   }
 
   h1,
