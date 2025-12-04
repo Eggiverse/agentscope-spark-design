@@ -167,7 +167,7 @@ export default createGlobalStyle`
       position: absolute;
       left: 0;
       top: 0;
-      width: 54px;
+      width: 100%;
       border-radius: 5px;
       height: 54px;
       background-color: rgba(0, 0, 0, 0.45);
