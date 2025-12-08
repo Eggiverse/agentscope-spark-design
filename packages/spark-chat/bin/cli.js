@@ -12,9 +12,9 @@ function execSyncSafe(command) {
 
 program
   .name('agentscope-runtime-webui')
-  .description('启动 AgentScope Runtime WebUI 服务')
-  .option('-u, --url <url>', '指定后端 API 地址')
-  .option('-t, --token <token>', '指定认证 token')
+  .description('Start the AgentScope Runtime WebUI service')
+  .option('-u, --url <url>', 'The backend API address')
+  .option('-t, --token <token>', 'The authentication token')
   .parse(process.argv);
 
 const options = program.opts();
@@ -23,9 +23,12 @@ async function startServer() {
   console.log('\n🚀 Starting AgentScope Runtime WebUI...\n');
 
   try {
-    execSyncSafe(`rm ${__dirname}/starter_webui`);
-    execSyncSafe(`rm ${__dirname}/__MACOSX`);
-    execSyncSafe(`unzip ${__dirname}/starter_webui.zip -d ${__dirname}`);
+    execSyncSafe(`npx rimraf ${__dirname}/starter_webui`);
+    execSyncSafe(`npx rimraf ${__dirname}/__MACOSX`);
+    execSyncSafe(
+      `npx decompress-cli ${__dirname}/starter_webui.zip --out-dir ${__dirname}`,
+    );
+    
 
     execSync(
       `cd ${__dirname}/starter_webui && npm install && BASE_URL=${
