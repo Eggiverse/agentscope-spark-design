@@ -12,7 +12,7 @@ const Tool = React.memo(function ({ data }: { data: IAgentScopeRuntimeMessage })
   }>[];
   const toolName = content[0].data.name;
 
-  return <ToolCall title={toolName} input={content[0].data.arguments} output={content[1].data.output}></ToolCall>
+  return <ToolCall defaultOpen={false} title={toolName} input={content[0]?.data?.arguments} output={content[1]?.data?.output}></ToolCall>
 })
 
 export default Tool;

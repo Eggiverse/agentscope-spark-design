@@ -41,11 +41,16 @@ export interface IToolCallProps {
    * @default ''
    */
   output: string | Record<string, any>;
+  /**
+   * @description 默认展开
+   * @descriptionEn Default Open
+   */
+  defaultOpen?: boolean;
 }
 
 export default function (props: IToolCallProps) {
 
-  const { title = 'Call Tool', subTitle } = props;
+  const { title = 'Call Tool', subTitle, defaultOpen = true } = props;
 
   return <OperateCard
 
@@ -56,7 +61,7 @@ export default function (props: IToolCallProps) {
     }}
 
     body={{
-      defaultOpen: true,
+      defaultOpen: defaultOpen,
       children: <OperateCard.LineBody>
         <Block title="Input" content={props.input} />
         <Block title="Output" content={props.output} />

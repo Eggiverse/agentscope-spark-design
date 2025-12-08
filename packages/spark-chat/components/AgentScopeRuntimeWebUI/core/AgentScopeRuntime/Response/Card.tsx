@@ -26,6 +26,8 @@ export default function AgentScopeRuntimeResponseCard(props: {
           return <Message key={item.id} data={item} />
         case AgentScopeRuntimeMessageType.PLUGIN_CALL:
         case AgentScopeRuntimeMessageType.PLUGIN_CALL_OUTPUT:
+        case AgentScopeRuntimeMessageType.MCP_CALL:
+        case AgentScopeRuntimeMessageType.MCP_CALL_OUTPUT:
           return <Tool key={item.id} data={item} />
         case AgentScopeRuntimeMessageType.REASONING:
           return <Reasoning key={item.id} data={item} />
