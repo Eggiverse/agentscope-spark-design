@@ -9,6 +9,7 @@ export default function Reasoning({ data }: { data: IAgentScopeRuntimeMessage })
   if (!content) return null;
 
   return <Thinking
+    defaultOpen={false}
     title="Thinking"
     content={content.text}
 
