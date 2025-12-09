@@ -20,9 +20,16 @@ export interface IThinkingProps {
    * @default ''
    */
   content: string;
+  /**
+   * @description 默认展开
+   * @descriptionEn Default Open
+   * @default true
+   */
+  defaultOpen?: boolean;
 }
 export default function (props: IThinkingProps) {
   const { getPrefixCls } = useProviderContext();
+  const { defaultOpen = true } = props;
   const prefixCls = getPrefixCls('operate-card');
 
 
@@ -34,7 +41,7 @@ export default function (props: IThinkingProps) {
       description: props.subTitle,
     }}
     body={{
-      defaultOpen: true,
+      defaultOpen,
       children: <OperateCard.LineBody>
         <div className={`${prefixCls}-thinking`}>
           {props.content}

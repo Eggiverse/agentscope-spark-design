@@ -1,6 +1,8 @@
 
 import { OperateCard, useProviderContext } from '@agentscope-ai/chat';
-import { SparkToolLine } from '@agentscope-ai/icons';
+import { SparkCopyLine, SparkToolLine, SparkTrueLine } from '@agentscope-ai/icons';
+import { CodeBlock, CollapsePanel, IconButton, message } from '@agentscope-ai/design';
+import { useRef, useState } from 'react';
 
 
 function Block(props: {
@@ -9,10 +11,35 @@ function Block(props: {
 }) {
   const { getPrefixCls } = useProviderContext();
   const prefixCls = getPrefixCls('operate-card');
-  const contentString = typeof props.content === 'string' ? props.content : JSON.stringify(props.content, null, 2);
+  const contentString = typeof props.content === 'string' ? props.content : JSON.stringify(props.content);
+  const [copied, setCopied] = useState(false);
+  const timer = useRef<NodeJS.Timeout | null>(null);
+
   return <div className={`${prefixCls}-tool-call-block`}>
-    <div className={`${prefixCls}-tool-call-block-title`}>{props.title}</div>
-    <div className={`${prefixCls}-tool-call-block-content`}>{contentString}</div>
+    <CollapsePanel
+      title={
+        props.title
+      }
+      collapsedHeight={120}
+      expandedHeight={240}
+      expandOnPanelClick={true}
+      extra={
+        <IconButton
+          style={{ marginRight: '-6px' }}
+          icon={copied ? <SparkTrueLine /> : <SparkCopyLine />}
+          bordered={false}
+          onClick={() => {
+            clearTimeout(timer.current);
+            navigator.clipboard.writeText(contentString);
+            setCopied(true);
+            timer.current = setTimeout(() => {
+              setCopied(false);
+            }, 2000);
+          }} />
+      }
+    >
+      <CodeBlock language={'json'} value={contentString} readOnly={true} />
+    </CollapsePanel>
   </div>
 }
 
@@ -41,11 +68,16 @@ export interface IToolCallProps {
    * @default ''
    */
   output: string | Record<string, any>;
+  /**
+   * @description 默认展开
+   * @descriptionEn Default Open
+   */
+  defaultOpen?: boolean;
 }
 
 export default function (props: IToolCallProps) {
 
-  const { title = 'Call Tool', subTitle } = props;
+  const { title = 'Call Tool', subTitle, defaultOpen = true } = props;
 
   return <OperateCard
 
@@ -56,7 +88,7 @@ export default function (props: IToolCallProps) {
     }}
 
     body={{
-      defaultOpen: true,
+      defaultOpen: defaultOpen,
       children: <OperateCard.LineBody>
         <Block title="Input" content={props.input} />
         <Block title="Output" content={props.output} />
