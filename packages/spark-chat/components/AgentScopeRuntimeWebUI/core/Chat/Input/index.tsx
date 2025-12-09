@@ -56,6 +56,7 @@ export default function Input(props: InputProps) {
       {beforeUI}
       <ChatInput
         loading={inputContext.loading}
+        disabled={inputContext.disabled}
         scalable={scalable}
         placeholder={placeholder}
         value={content}
