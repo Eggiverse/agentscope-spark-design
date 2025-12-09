@@ -6,11 +6,15 @@ import { ChatAnywhereInputContext, useChatAnywhereInput } from '../Context/ChatA
 // 逐步放开
 function Ref(_, ref) {
   const messages = useChatAnywhereMessages()
+  const setDisabled = useContextSelector(ChatAnywhereInputContext, v => v.setDisabled);
 
   React.useImperativeHandle(ref, () => {
     return {
       messages,
-      
+      input: {
+        setDisabled
+      },
+
     }
   }, []);
 

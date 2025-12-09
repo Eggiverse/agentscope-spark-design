@@ -31,7 +31,6 @@ export function ChatAnywhereMessagesContextProvider(props: {
 
 export const useChatAnywhereMessages = () => {
   const { setMessages, getMessages } = useContextSelector(ChatAnywhereMessagesContext, v => ({
-    messages: v.messages,
     setMessages: v.setMessages,
     getMessages: v.getMessages,
   }));

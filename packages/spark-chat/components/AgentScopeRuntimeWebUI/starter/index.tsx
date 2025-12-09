@@ -8,6 +8,9 @@ import { useLocalStorageState } from 'ahooks';
 export default function () {
 
   const chatRef = useRef<IAgentScopeRuntimeWebUIRef>(null);
+  // @ts-ignore
+  window.chatRef = chatRef;
+
   const [optionsConfig, setOptionsConfig] = useLocalStorageState('agent-scope-runtime-webui-options', {
     defaultValue: defaultConfig(),
     listenStorageChange: true,
