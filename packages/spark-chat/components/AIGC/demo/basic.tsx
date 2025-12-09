@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { GetProp } from 'antd';
 import { SparkAttachmentLine } from '@agentscope-ai/icons';
 import { ChatInput, Attachments } from '@agentscope-ai/chat';
-import { AIGCSenderHeader } from '@agentscope-ai/chat/AIGC';
+import AIGC from '@agentscope-ai/chat/AIGC';
 import { useClickAway, useFocusWithin } from 'ahooks';
 
 type AttachedFiles = GetProp<typeof Attachments, 'items'>;
@@ -46,7 +46,7 @@ export default function () {
     <div ref={containerRef} style={{width: '100%'}}>
       <ChatInput
         header={
-          <AIGCSenderHeader 
+          <AIGC.SenderHeader 
             focus={focus} 
             enableFocusVisible={true}
             onUpload={onUpload}

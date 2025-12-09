@@ -4,6 +4,7 @@ group:
   order: 2
 title: AIGCInput
 description: AI输入框
+order: 2
 ---
 
 <DemoTitle title="AIGCInput" desc="AIGC输入框" llmTxtName="AIGCSender"></DemoTitle>

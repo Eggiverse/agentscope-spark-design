@@ -84,3 +84,5 @@ export {
   type MarkdownProps as IMarkdownProps,
   type MarkdownProps,
 } from './Markdown';
+
+export { default as AIGC } from './AIGC';

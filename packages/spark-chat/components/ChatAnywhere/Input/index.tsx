@@ -7,7 +7,7 @@ import { useInput } from '../hooks/useInput';
 import { Button, GetProp, Space, Upload } from 'antd';
 import Style from './style';
 import { IconButton } from '@agentscope-ai/design';
-import { AIGCSenderHeader } from '@agentscope-ai/chat/AIGC';
+import AIGC from '@agentscope-ai/chat/AIGC';
 import { useClickAway, useFocusWithin } from 'ahooks';
 
 type AttachedFiles = GetProp<typeof Attachments, 'items'>;
@@ -115,7 +115,7 @@ export default forwardRef(function (_, ref) {
 
   // aigc 模式下的 header
   const aigcSenderHeader = (
-    <AIGCSenderHeader 
+    <AIGC.SenderHeader 
       focus={focus} 
       enableFocusVisible={onInput.enableHeaderFocusVisible} 
       onUpload={onUpload} 
