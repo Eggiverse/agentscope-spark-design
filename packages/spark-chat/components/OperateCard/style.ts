@@ -160,6 +160,8 @@ export default createGlobalStyle`
 
   &-tool-call-block {
     margin-left: 16px;
+    margin-top: 8px;
+
   
     &-title {
       font-size: 12px;
@@ -168,20 +170,8 @@ export default createGlobalStyle`
       margin-bottom: 4px;
     }
 
-    &-content {
-      font-size: 12px;
-      line-height: 20px;
-      font-family: ${(p) => p.theme.fontFamilyCode};
-      border-radius: 6px;
-      padding: 8px;
-      background-color: ${(p) => p.theme.colorFillTertiary};
-      white-space: pre-wrap;
-    }
   }
 
-  &-tool-call-block ~ &-tool-call-block {
-    margin-top: 8px;
-  }
 
 
   &-device-action {
@@ -234,6 +224,9 @@ export default createGlobalStyle`
       color: ${(p) => p.theme.colorText};
       line-height: 20px;
       margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     &-content {

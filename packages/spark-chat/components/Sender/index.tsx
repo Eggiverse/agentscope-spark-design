@@ -4,6 +4,7 @@ import { useMergedState } from 'rc-util';
 import pickAttrs from 'rc-util/lib/pickAttrs';
 import getValue from 'rc-util/lib/utils/get';
 import React, { useState } from 'react';
+import { useFocusWithin, useClickAway, useEventListener } from 'ahooks';
 import useProxyImperativeHandle from '../Util/hooks/use-proxy-imperative-handle';
 import { useProviderContext } from '@agentscope-ai/chat';
 import SenderHeader, { SendHeaderContext } from './SenderHeader';
@@ -18,6 +19,7 @@ import ModeSelect from './ModeSelect';
 import type { InputRef as AntdInputRef, ButtonProps, GetProps } from 'antd';
 import { SparkEnlargeLine, SparkShrinkLine } from '@agentscope-ai/icons';
 import { IconButton } from '@agentscope-ai/design';
+
 
 export type SubmitType = 'enter' | 'shiftEnter' | false;
 
@@ -75,6 +77,18 @@ export interface SenderProps extends Pick<TextareaProps, 'placeholder' | 'onKeyP
   disabled?: boolean;
 
   /**
+   * @description 是否禁用发送按钮
+   * @descriptionEn Whether to disable the send button
+   */
+  sendDisabled?: boolean;
+
+  /**
+   * @description 是否启用用户focus时展开输入框组件
+   * @descriptionEn Whether to enable the user focus to expand the input box component
+   */
+  enableFocusExpand?: boolean;
+
+  /**
    * @description 用户提交消息时的回调函数，接收消息内容作为参数
    * @descriptionEn Callback function when user submits a message, receives message content as parameter
    */
@@ -93,7 +107,16 @@ export interface SenderProps extends Pick<TextareaProps, 'placeholder' | 'onKeyP
    * @descriptionEn Callback function when user cancels operation, usually for clearing input or resetting state
    */
   onCancel?: VoidFunction;
-
+  /**
+   * @description 用户blur时回调函数
+   * @descriptionEn Callback function when user blurs
+   */
+  onBlur?: VoidFunction;
+  /**
+   * @description 用户focus时回调函数
+   * @descriptionEn Callback function when user focuses
+   */
+  onFocus?: VoidFunction;
   /**
    * @description 键盘事件处理函数，用于自定义键盘快捷键和特殊按键行为
    * @descriptionEn Keyboard event handler for custom keyboard shortcuts and special key behaviors
@@ -193,11 +216,15 @@ const ForwardSender = React.forwardRef<SenderRef, SenderProps>((props, ref) => {
     defaultValue,
     value,
     readOnly,
+    enableFocusExpand = false,
+    sendDisabled = false,
     submitType = 'enter',
     onSubmit,
     loading,
     onCancel,
     onChange,
+    onFocus,
+    onBlur,
     // @ts-ignore
     actions,
     onKeyPress,
@@ -221,13 +248,10 @@ const ForwardSender = React.forwardRef<SenderRef, SenderProps>((props, ref) => {
   const zoomable = scalable;
 
   const [zoom, setZoom] = useState(zoomable ? false : undefined);
-
+  const [focus, setFocus] = useState(false);
   const autoSize = React.useMemo(() => {
     return zoom ? { maxRows: 10, minRows: 10 } : { maxRows: 10, minRows: initialRows };
   }, [zoomable, zoom]);
-
-
-
 
   const { direction, getPrefixCls } = useProviderContext();
   const prefixCls = getPrefixCls('sender');
@@ -241,6 +265,26 @@ const ForwardSender = React.forwardRef<SenderRef, SenderProps>((props, ref) => {
     blur: inputRef.current?.blur!,
   }));
 
+  useFocusWithin(containerRef, {
+    onFocus: (e) => {
+      setFocus(true);
+      onFocus?.();
+    },
+    onBlur: () => {
+      if (!containerRef.current.contains(document.activeElement)) {
+        setFocus(false);
+        onBlur?.();
+      }
+    }
+  });
+
+  useEventListener('click', (e) => {
+    setFocus(true);
+    onFocus?.();
+  }, {
+    target: containerRef,
+  });
+
   const inputCls = `${prefixCls}-input`;
 
   const mergedCls = classnames(
@@ -250,6 +294,8 @@ const ForwardSender = React.forwardRef<SenderRef, SenderProps>((props, ref) => {
     {
       [`${prefixCls}-rtl`]: direction === 'rtl',
       [`${prefixCls}-disabled`]: disabled,
+      [`${prefixCls}-focus`]: focus && enableFocusExpand,
+      [`${prefixCls}-blur`]: !focus && enableFocusExpand,
     },
   );
 
@@ -287,7 +333,7 @@ const ForwardSender = React.forwardRef<SenderRef, SenderProps>((props, ref) => {
 
   // ============================ Events ============================
   const triggerSend = () => {
-    if (innerValue && onSubmit && !loading) {
+    if (!contextValue.onSendDisabled && onSubmit && !loading) {
       onSubmit(innerValue);
     }
   };
@@ -392,7 +438,7 @@ const ForwardSender = React.forwardRef<SenderRef, SenderProps>((props, ref) => {
   const contextValue = {
     prefixCls: actionBtnCls,
     onSend: triggerSend,
-    onSendDisabled: !innerValue,
+    onSendDisabled: !innerValue || sendDisabled,
     onClear: triggerClear,
     onClearDisabled: !innerValue,
     onCancel,
@@ -409,7 +455,7 @@ const ForwardSender = React.forwardRef<SenderRef, SenderProps>((props, ref) => {
 
     <div ref={containerRef} className={mergedCls} style={style}>
       {header && (
-        <SendHeaderContext.Provider value={{ prefixCls }}>{header}</SendHeaderContext.Provider>
+        <SendHeaderContext.Provider value={{ prefixCls, focus, enableFocusExpand }}>{header}</SendHeaderContext.Provider>
       )}
 
       <div className={`${prefixCls}-content`}>

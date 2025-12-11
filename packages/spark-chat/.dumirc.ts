@@ -22,8 +22,8 @@ export default defineConfig({
     : [],
   plugins: [
     '@umijs/plugins/dist/tailwindcss',
-    '@ali/dumi-plugin-api-parser',
-    '@ali/dumi-plugin-llms',
+    '@alibot/dumi-plugin-api-parser',
+    '@alibot/dumi-plugin-llms',
   ],
   llms: {
     outputDir: 'llms',
@@ -161,7 +161,6 @@ export default defineConfig({
   },
   alias: {
     '@agentscope-ai/chat': path.join(__dirname, 'components'),
-    '@agentscope-ai/design': ['/node_modules/@ali/agentscope-ai-design'],
     '@ant-design/icons': ['/node_modules/@agentscope-ai/icons-override-antd'],
     '@ant-design/icons-svg': [
       '/node_modules/@agentscope-ai/icons-svg-override-antd',

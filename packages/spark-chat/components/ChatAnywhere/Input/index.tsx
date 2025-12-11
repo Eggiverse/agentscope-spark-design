@@ -1,4 +1,5 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import { UploadFile } from 'antd';
 import { useProviderContext, ChatInput, uuid, Sender, Attachments } from '@agentscope-ai/chat';
 import cls from 'classnames';
 import { useChatAnywhere } from '../hooks/ChatAnywhereProvider';
@@ -6,6 +7,7 @@ import { useInput } from '../hooks/useInput';
 import { Button, GetProp, Space, Upload } from 'antd';
 import Style from './style';
 import { IconButton } from '@agentscope-ai/design';
+import { AIGC } from '@agentscope-ai/chat';
 
 type AttachedFiles = GetProp<typeof Attachments, 'items'>;
 
@@ -13,10 +15,16 @@ export default forwardRef(function (_, ref) {
   const [content, setContent] = React.useState('');
   const onUpload = useChatAnywhere(v => v.onUpload);
   const resetData = new Array(onUpload?.length || 0).fill([]);
+  const [focus, setFocus] = useState(false);
   const [attachedFiles, setAttachedFiles] = React.useState<AttachedFiles[]>(resetData);
+  const attachedFilesRef = useRef<AttachedFiles[]>(resetData);
   useEffect(() => {
     setAttachedFiles(resetData);
   }, [resetData.length]);
+
+  useEffect(() => {
+    attachedFilesRef.current = attachedFiles;
+  }, [attachedFiles]);
 
   const inputContext = useInput();
   const uiConfig = useChatAnywhere(v => v.uiConfig);
@@ -32,6 +40,8 @@ export default forwardRef(function (_, ref) {
       zoomable: true,
       beforeSubmit: () => Promise.resolve(true),
       header: [],
+      enableFocusExpand: false,
+      variant: 'default',
       hide: false,
     };
 
@@ -43,7 +53,12 @@ export default forwardRef(function (_, ref) {
 
   React.useImperativeHandle(ref, () => {
     return {
-      setInputContent: setContent
+      setInputContent: (content: string, fileList?: UploadFile[][]) => {
+        setContent(content);
+        setAttachedFiles(fileList || [[]]);
+      },
+      getAttachedFiles: () => attachedFilesRef.current,
+
     };
   }, []);
 
@@ -65,7 +80,7 @@ export default forwardRef(function (_, ref) {
     })
   }
 
-  const prefixNodes = onUpload?.length ?
+  const prefixNodes = onInput.variant !== 'aigc' && onUpload?.length ?
     onUpload.map((item, index) => {
       return <Upload
         {...item}
@@ -90,7 +105,17 @@ export default forwardRef(function (_, ref) {
     }) : [];
 
 
-  const senderHeader = (
+  // aigc 模式下的 header
+  const aigcSenderHeader = (
+    <AIGC.SenderHeader
+      onUpload={onUpload}
+      attachedFiles={attachedFiles}
+      onFileChange={handleFileChange}
+    />
+  );
+
+  // 默认模式下的 header
+  const defaultSenderHeader = (
     <Sender.Header
       closable={false}
       open={attachedFiles?.some(item => item.length)}
@@ -108,15 +133,32 @@ export default forwardRef(function (_, ref) {
     </Sender.Header>
   );
 
+  // 根据 variant 选择 header
+  const senderHeader = onInput.variant === 'aigc' ? aigcSenderHeader : defaultSenderHeader;
+
   const submitFileList = attachedFiles.map(files => files.filter(file => file.status === 'done'));
   const fileLoading = attachedFiles.some(files => files.some(file => file.status === 'uploading'));
-
-
+  
+  // 检查是否有必需的上传项没有文件
+  const requiredFileMissing = useMemo(() => {
+    return onUpload?.some((item, index) => {
+      if (item.required) {
+        const files = attachedFiles[index] || [];
+        return files.length === 0;
+      }
+      return false;
+    }) ?? false;
+  }, [onUpload, attachedFiles]);
+  
+  const sendDisabled = requiredFileMissing;
 
   return <>
     <Style />
     <div
-      className={cls(`${prefixCls}-wrapper`)}
+      className={cls(`${prefixCls}-wrapper`, {
+        [`${prefixCls}-wrapper-focus`]: focus && onInput.enableFocusExpand,
+        [`${prefixCls}-wrapper-blur`]: !focus && onInput.enableFocusExpand,
+      })}
     >
       {
         uiConfig.quickInput && <div className={cls(`${prefixCls}-wrapper-header`)}>{uiConfig.quickInput}</div>
@@ -127,10 +169,12 @@ export default forwardRef(function (_, ref) {
       }
       <ChatInput
         placeholder={onInput.placeholder}
+        enableFocusExpand={onInput.enableFocusExpand}
         value={content}
         onChange={setContent}
         maxLength={onInput.maxLength}
         disabled={fileLoading || inputContext.disabled}
+        sendDisabled={sendDisabled}
         scalable={onInput?.zoomable}
         header={senderHeader}
         prefix={<>
@@ -149,6 +193,8 @@ export default forwardRef(function (_, ref) {
           onStop?.();
           inputContext.setLoading(false);
         }}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
         loading={inputContext.loading}
       />
       {

@@ -4,9 +4,10 @@ pnpm-lock.yaml
 
 # Build output
 dist
-lib
 docs-dist
 *.log
+packages/spark-chat/lib
+packages/spark-design/lib
 
 # IDE
 .history
@@ -25,3 +26,5 @@ docs-dist
 # Test coverage
 coverage
 .nyc_output
+
+.cursor
