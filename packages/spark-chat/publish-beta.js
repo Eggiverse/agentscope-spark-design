@@ -11,8 +11,8 @@ try {
 
   execSync('npm publish --registry=https://registry.npmjs.org --access public --tag beta', { stdio: 'inherit' });
   console.log('Publish completed successfully');
-  execSync(`npm version ${pkg.version} --no-git-tag-version`, { stdio: 'inherit' });
-
 } catch (error) {
   console.error('Publish failed:', error);
+} finally {
+  execSync(`npm version ${pkg.version} --no-git-tag-version`, { stdio: 'inherit' });
 }
