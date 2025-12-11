@@ -1,4 +1,5 @@
 import { OperateCard, useProviderContext, Markdown } from '@agentscope-ai/chat';
+import { Tag } from '@agentscope-ai/design';
 import { SparkBookLine } from '@agentscope-ai/icons';
 import { ConfigProvider, Image } from 'antd';
 import { Locale } from "antd/es/locale";
@@ -22,6 +23,7 @@ export interface IRagProps {
    * @default []
    */
   list: {
+    score?: number;
     title: string;
     content: string;
     footer: string;
@@ -73,7 +75,14 @@ export default function (props: IRagProps) {
       children: <OperateCard.LineBody>
         {props.list.map((item, index) => {
           return <div key={index} className={`${prefixCls}-rag-item`}>
-            <div className={`${prefixCls}-rag-item-title`}>{item.title}</div>
+            <div className={`${prefixCls}-rag-item-title`}>
+              <span>
+                {item.title}
+              </span>
+              {
+                item.score && <Tag color="blue">{item.score}</Tag>
+              }
+            </div>
             <div className={`${prefixCls}-rag-item-content`}>
               <Markdown content={item.content} />
 
