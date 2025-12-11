@@ -1,4 +1,5 @@
 import { UploadProps } from 'antd';
+import { IAgentScopeRuntimeResponse } from '../AgentScopeRuntime/types';
 import { IAgentScopeRuntimeWebUISession } from './ISessions';
 
 /**
@@ -314,6 +315,28 @@ export interface IAgentScopeRuntimeWebUIOptions {
    * @descriptionEn Custom cards configuration
    */
   cards?: IAgentScopeRuntimeWebUICardsOptions;
+  /**
+   * @description 自定义工具渲染
+   * @descriptionEn Custom tool render
+   */
+  customToolRenderConfig?: IAgentScopeRuntimeWebUICardsOptions;
+
+  /**
+   * @description 操作按钮配置
+   * @descriptionEn Actions configuration
+   */
+  actions?: IAgentScopeRuntimeWebUIActionsOptions;
+}
+
+export interface IAgentScopeRuntimeWebUIActionsOptions {
+  /**
+   * @description 操作按钮列表
+   * @descriptionEn Actions button list
+   */
+  list: {
+    icon: React.ReactElement;
+    onClick: ({ data }: { data: IAgentScopeRuntimeResponse }) => void;
+  }[];
 }
 
 /**
