@@ -28,6 +28,12 @@ export interface IRagProps {
     images?: string[];
     link?: string;
   }[]
+  /**
+   * @description 默认展开
+   * @descriptionEn Default Open
+   * @default true
+   */
+  defaultOpen?: boolean;
 }
 
 function Images({ images }: { images: string[] }) {
@@ -54,7 +60,7 @@ function Images({ images }: { images: string[] }) {
 export default function (props: IRagProps) {
   const { getPrefixCls } = useProviderContext();
   const prefixCls = getPrefixCls('operate-card');
-  const { title = '知识库检索', subTitle } = props;
+  const { title = '知识库检索', subTitle, defaultOpen = true } = props;
 
   return <OperateCard
     header={{
@@ -63,7 +69,7 @@ export default function (props: IRagProps) {
       description: subTitle,
     }}
     body={{
-      defaultOpen: true,
+      defaultOpen,
       children: <OperateCard.LineBody>
         {props.list.map((item, index) => {
           return <div key={index} className={`${prefixCls}-rag-item`}>
