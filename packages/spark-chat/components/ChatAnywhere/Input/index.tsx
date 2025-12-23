@@ -1,13 +1,14 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
-import { UploadFile } from 'antd';
+import { Flex, Popover, UploadFile } from 'antd';
 import { useProviderContext, ChatInput, uuid, Sender, Attachments } from '@agentscope-ai/chat';
 import cls from 'classnames';
 import { useChatAnywhere } from '../hooks/ChatAnywhereProvider';
 import { useInput } from '../hooks/useInput';
-import { Button, GetProp, Space, Upload } from 'antd';
+import { GetProp, Space, Upload } from 'antd';
 import Style from './style';
-import { IconButton } from '@agentscope-ai/design';
+import { IconButton, Button } from '@agentscope-ai/design';
 import { AIGC } from '@agentscope-ai/chat';
+import UploadPopover from './UploadPopover';
 
 type AttachedFiles = GetProp<typeof Attachments, 'items'>;
 
@@ -31,7 +32,7 @@ export default forwardRef(function (_, ref) {
   useEffect(() => {
     attachedFilesRef.current = attachedFiles;
   }, [attachedFiles]);
-  
+
   const uiConfig = useChatAnywhere(v => v.uiConfig);
   const { getPrefixCls } = useProviderContext();
   const prefixCls = getPrefixCls('chat-anywhere-sender');
@@ -85,8 +86,28 @@ export default forwardRef(function (_, ref) {
     })
   }
 
-  const prefixNodes = onInput.variant !== 'aigc' && onUpload?.length ?
-    onUpload.map((item, index) => {
+  const uploadPrefixNodes = useMemo(() => {
+    if (onInput.variant === 'aigc' || !onUpload?.length) {
+      return [];
+    }
+    const nodes = onUpload.map((item, index) => {
+
+      let trigger;
+
+      if (item.trigger) {
+        trigger = item.trigger;
+      } else if ((item.title || item.description) && onUpload.length > 1) {
+        trigger = <Button type='text' icon={item.icon} >
+          {item.title && <span>{item.title}</span>}
+          {item.description && <span style={{ fontSize: '0.8em', opacity: 0.8 }}>{item.description}</span>}
+        </Button>
+      } else {
+        trigger = <IconButton
+          icon={item.icon}
+          bordered={false}
+        />
+      }
+
       return <Upload
         {...item}
         fileList={attachedFiles[index]}
@@ -102,12 +123,20 @@ export default forwardRef(function (_, ref) {
         }}
         showUploadList={false}
       >
-        <IconButton
-          icon={item.icon}
-          bordered={false}
-        />
+        {
+          trigger
+        }
       </Upload>
-    }) : [];
+    });
+
+    if (nodes.length === 1) return nodes;
+    return <UploadPopover nodes={nodes} />
+
+
+
+  }, [onInput.variant, onUpload, attachedFiles]);
+
+
 
 
   // aigc 模式下的 header
@@ -143,7 +172,164 @@ export default forwardRef(function (_, ref) {
 
   const submitFileList = attachedFiles.map(files => files.filter(file => file.status === 'done'));
   const fileLoading = attachedFiles.some(files => files.some(file => file.status === 'uploading'));
-  
+
+  const handlePasteFile = (file: File) => {
+    if (!onUpload?.length) return;
+
+    const fileType = file.type || '';
+    const fileName = file.name || '';
+
+    // Match file type with accept pattern
+    const matchAcceptType = (accept?: string) => {
+      if (!accept) return true;
+
+      return accept.split(',').some(type => {
+        const trimmed = type.trim();
+        if (!trimmed) return false;
+
+        // Extension: .jpg, .png
+        if (trimmed.startsWith('.')) {
+          return fileName.toLowerCase().endsWith(trimmed.toLowerCase());
+        }
+
+        // Wildcard: image/*, */*
+        if (trimmed.includes('*')) {
+          if (trimmed === '*/*') return true;
+          const [acceptMain] = trimmed.split('/');
+          const [fileMain] = fileType.split('/');
+          return acceptMain === fileMain;
+        }
+
+        // Exact: image/jpeg
+        return fileType === trimmed;
+      });
+    };
+
+    // Find matching upload config
+    const uploadIndex = onUpload.findIndex(config => matchAcceptType(config.accept));
+    if (uploadIndex === -1) {
+      return;
+    }
+
+    const uploadConfig = onUpload[uploadIndex];
+    const currentFiles = attachedFiles[uploadIndex] || [];
+
+    // Check maxCount limit
+    if (uploadConfig.maxCount && currentFiles.length >= uploadConfig.maxCount) {
+      return;
+    }
+
+    // Check multiple support
+    if (!uploadConfig.multiple && currentFiles.length > 0) {
+      return;
+    }
+
+    // Validate before upload
+    if (uploadConfig.beforeUpload) {
+      const result = uploadConfig.beforeUpload(file as any, [file as any]);
+      if (result === false) {
+        return;
+      }
+      // Handle Promise return from beforeUpload
+      if (result instanceof Promise) {
+        result.then((processedFile) => {
+          if (processedFile === false) {
+            return;
+          }
+          // Continue with processed file or original file
+          // processedFile could be File, Blob, or true
+          const fileToProcess = (processedFile && typeof processedFile === 'object') ? processedFile as File : file;
+          continueUpload(fileToProcess);
+        }).catch((error) => {
+          console.error('beforeUpload promise rejected:', error);
+        });
+        return;
+      }
+    }
+
+    continueUpload(file);
+
+    function continueUpload(fileToUpload: File) {
+      // Extract extension from filename or MIME type
+      const getExtension = () => {
+        const nameMatch = fileName.match(/\.([^.]+)$/);
+        if (nameMatch) return nameMatch[1].toLowerCase();
+
+        const typeMatch = fileType.match(/\/([^/+]+)/);
+        return typeMatch ? typeMatch[1].toLowerCase() : 'bin';
+      };
+
+      // Create upload file object
+      const timestamp = Date.now();
+      const uploadFile: any = {
+        uid: `paste_${timestamp}_${Math.random().toString(36).slice(2, 11)}`,
+        name: fileName || `pasted-${timestamp}.${getExtension()}`,
+        size: fileToUpload.size,
+        type: fileType,
+        status: 'uploading',
+        percent: 0,
+        originFileObj: fileToUpload,
+      };
+
+      // Update file in list
+      const updateFile = (updates: any) => {
+        setAttachedFiles(prev => {
+          const updated = [...prev];
+          updated[uploadIndex] = (updated[uploadIndex] || []).map(f =>
+            f.uid === uploadFile.uid ? { ...f, ...updates } as any : f
+          );
+          return updated;
+        });
+      };
+
+      // Add file to list first
+      setAttachedFiles(prev => {
+        const updated = [...prev];
+        const currentList = updated[uploadIndex] || [];
+
+        // If not multiple, replace existing files
+        if (!uploadConfig.multiple) {
+          updated[uploadIndex] = [uploadFile];
+        } else {
+          // If multiple, check maxCount
+          if (uploadConfig.maxCount && currentList.length >= uploadConfig.maxCount) {
+            return prev;
+          }
+          updated[uploadIndex] = [...currentList, uploadFile];
+        }
+        return updated;
+      });
+
+      // Handle image preview (async, don't block upload)
+      if (fileType && fileType.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target?.result;
+          if (typeof result === 'string') {
+            updateFile({ thumbUrl: result, url: result });
+          }
+        };
+        reader.readAsDataURL(fileToUpload);
+      }
+
+      // Trigger upload via customRequest
+      uploadConfig.customRequest({
+        file: fileToUpload as any,
+        onSuccess: (response: any) => {
+          updateFile({ status: 'done', response, percent: 100 });
+        },
+        onError: (error: any) => {
+          updateFile({ status: 'error', error });
+        },
+        onProgress: (event: any) => {
+          updateFile({ percent: event.percent });
+        },
+      } as any, {
+        defaultRequest: () => { }
+      });
+    }
+  };
+
   // 检查是否有必需的上传项没有文件
   const requiredFileMissing = useMemo(() => {
     return onUpload?.some((item, index) => {
@@ -154,7 +340,7 @@ export default forwardRef(function (_, ref) {
       return false;
     }) ?? false;
   }, [onUpload, attachedFiles]);
-  
+
   const sendDisabled = requiredFileMissing;
 
   return <>
@@ -183,7 +369,7 @@ export default forwardRef(function (_, ref) {
         scalable={onInput?.zoomable}
         header={senderHeader}
         prefix={<>
-          {prefixNodes}
+          {uploadPrefixNodes}
           {onInput?.morePrefixActions}
         </>}
         onSubmit={async () => {
@@ -200,6 +386,7 @@ export default forwardRef(function (_, ref) {
         }}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
+        onPasteFile={handlePasteFile}
         loading={inputContext.loading}
       />
       {

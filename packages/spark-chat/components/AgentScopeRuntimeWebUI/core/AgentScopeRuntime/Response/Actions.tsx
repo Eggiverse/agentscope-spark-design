@@ -2,10 +2,11 @@ import { SparkCopyLine, SparkReplaceLine } from "@agentscope-ai/icons";
 import { IAgentScopeRuntimeResponse } from "../types";
 import AgentScopeRuntimeResponseBuilder from "./Builder";
 import { Bubble } from "@agentscope-ai/chat";
-import { copy } from "@agentscope-ai/design";
+import { copy, Tooltip } from "@agentscope-ai/design";
 import compact from 'lodash/compact';
 import { emit } from "../../Context/useChatAnywhereEventEmitter";
 import { useChatAnywhereOptions } from "../../Context/ChatAnywhereOptionsContext";
+import React from "react";
 
 
 function Usage(props: {
@@ -32,21 +33,23 @@ export default function Tools(props: {
     }
   ];
 
+  const replace = useChatAnywhereOptions(v => v.actions?.replace) ?? true;
+
   const actions = compact([
     ...actionsOptionsList.map(i => {
       const res = i;
-      if (i.onClick) {
-        res.onClick = () => {
-          i.onClick(props);
+
+      if (i.render) {
+        res.children = React.createElement(i.render, { data: props });
+      }
+      return {
+        ...res, onClick() {
+          i.onClick?.(props);
         }
       }
-      if (i.render) {
-        res.children = i.render(props);
-      }
-      return res
     }),
-    props.isLast ? {
-      icon: <SparkReplaceLine />,
+    replace && props.isLast ? {
+      icon: <Tooltip title="重新生成"><SparkReplaceLine /></Tooltip>,
       onClick: () => {
         emit({
           type: 'handleReplace',

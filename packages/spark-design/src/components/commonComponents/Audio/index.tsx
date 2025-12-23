@@ -10,19 +10,14 @@ type NativeAudioProps = React.DetailedHTMLProps<
   HTMLAudioElement
 >;
 
-export interface AudioProps extends NativeAudioProps {
-  /**
-   * @description audio内部设置了按钮样式，如果有一些操作按钮想继承这个样式可以在这里传入
-   */
-  children?: React.ReactNode;
-}
+export type AudioProps = NativeAudioProps
 
 /**
  * 音频播放器组件
  * 包含播放/暂停、音量控制、进度条和时间显示
  */
 const Audio = forwardRef<HTMLAudioElement, AudioProps>((props, ref) => {
-  const { controls, children, className, style, ...audioProps } = props;
+  const { controls, className, style, ...audioProps } = props;
   const commonConfig = getCommonConfig();
   const { sparkPrefix } = commonConfig;
   const Style = useStyle();
@@ -128,21 +123,18 @@ const Audio = forwardRef<HTMLAudioElement, AudioProps>((props, ref) => {
           onPause={handlePause}
           onEnded={handleEnded}
         />
-        {controls && (
-          <MediaPlayerController
-            className={`${sparkPrefix}-audio-controller-wrapper`}
-            isPlaying={isPlaying}
-            currentTime={currentTime}
-            duration={duration}
-            enableVolume={true}
-            enableFullscreen={false}
-            muted={muted}
-            onMute={() => setMuted(!muted)}
-            onPlayPause={handlePlayPause}
-            onProgressClick={handleProgressClick}
-          />
-        )}
-        {children}
+        <MediaPlayerController
+          className={`${sparkPrefix}-audio-controller-wrapper`}
+          isPlaying={isPlaying}
+          currentTime={currentTime}
+          duration={duration}
+          enableVolume={true}
+          enableFullscreen={false}
+          muted={muted}
+          onMute={() => setMuted(!muted)}
+          onPlayPause={handlePlayPause}
+          onProgressClick={handleProgressClick}
+        />
       </div>
     </>
   );

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * 主题生成器 - Theme Generator
 
@@ -102,7 +103,7 @@ const hslToRgb = (h, s, l) => {
       if (tt < 0) tt += 1;
       if (tt > 1) tt -= 1;
       if (tt < 1 / 6) return p + (q - p) * 6 * tt;
-      if (t < 1 / 2) return q;
+      if (tt < 1 / 2) return q;
       if (tt < 2 / 3) return p + (q - p) * (2 / 3 - tt) * 6;
       return p;
     };
